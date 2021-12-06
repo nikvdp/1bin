@@ -1,0 +1,21 @@
+package:
+  name: bfs
+  version: 2.3
+
+source:
+  git_rev: c550942047e3f95d38d44a1d1cd00df20287eb4a
+  git_url: https://github.com/tavianator/bfs
+
+requirements:
+  build:
+    - make
+
+  # run:
+  #   - python
+
+# test:
+#   imports:
+    # -
+
+about:
+  home: https://github.com/tavianator/bfs

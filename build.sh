@@ -21,19 +21,18 @@ write-warp-entrypoint() {
     # to the PATH before calling into the python script. This ensures the
     # shebang at the beginning of the python script calls the bundled python
     # interpreter.
-    # the odd `declare -p` bit takes care of quoting CMD_TO_RUN properly, see
-    # [1]
+    # the odd `echo ${CMD_TO_RUN[@]@Q}` bit takes care of quoting CMD_TO_RUN
+    # properly, see [1]
     #
+    # WARNING: be sure not to insert a new-line in front of #!/usr/bin/env bash or
+    # you'll get confusing 'Exec format error' messages!
     # [1]: https://listed.to/@dhamidi/29004/bash-quoting-code
-    echo > "$WARP_ENTRY_POINT" ' 
-#!/usr/bin/env bash
+    echo > "$WARP_ENTRY_POINT" '#!/usr/bin/env bash
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 export PATH="$SCRIPT_DIR:$PATH"
 
-'"$(declare -p CMD_TO_RUN)"'
-
-exec "${CMD_TO_RUN[@]}" "$@"
+exec '${CMD_TO_RUN[@]@Q}' "$@"
 '
 chmod +x "$WARP_ENTRY_POINT"
 }

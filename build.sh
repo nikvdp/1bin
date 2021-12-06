@@ -2,16 +2,17 @@
 set -eu
 set -x
 
+RUN_ID="$(date +%s)"
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 CMD_TO_RUN=(${@:-"nlpentities"})
  # @note that CMD_TO_RUN is not used as an array below, which in bash means
  # CONDA_ENV_NAME to the first item of CMD_TO_RUN. so below means: if
  # CONDA_ENV_NAME is not set, set it to first item of CMD_TO_RUN array
-CONDA_ENV_NAME="${CONDA_ENV_NAME:-${CMD_TO_RUN}}-$(date +%s)"
+CONDA_ENV_NAME="${CONDA_ENV_NAME:-${CMD_TO_RUN}}-$RUN_ID"
 OUTPUT_DIR="$SCRIPT_DIR/out"
 OUTPUT_BIN_NAME="${OUTPUT_BIN_NAME:-${CMD_TO_RUN}}"
 CONDAPACK_TARBALL="$SCRIPT_DIR/$CMD_TO_RUN.tar.gz"
-BUNDLE_WORK_DIR="${SCRIPT_DIR}/build/conda-pack-workdir"
+BUNDLE_WORK_DIR="${SCRIPT_DIR}/build/conda-pack-workdir-$RUN_ID"
 WARP_ENTRY_POINT="${BUNDLE_WORK_DIR}/bin/warp-entrypoint.sh"
 WARP_ARCH="$(uname | sed 's/Darwin/macos/' | sed 's/Linux/linux/')-x64"
 
@@ -50,7 +51,7 @@ pack-binary() {
 
 create-conda-env() {
     conda create --name "$CONDA_ENV_NAME" 
-    conda run --name "$CONDA_ENV_NAME" conda install --yes "$CMD_TO_RUN"
+    conda run --name "$CONDA_ENV_NAME" conda install --yes --use-local "$CMD_TO_RUN"
 }
 
 create-conda-env-from-env-yaml() {

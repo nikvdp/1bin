@@ -8,6 +8,7 @@ source:
 
 requirements:
   build:
+    - bash 
     - make
 
   # run:

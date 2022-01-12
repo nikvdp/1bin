@@ -10,4 +10,10 @@
 will put a jq exec in the ./out folder
 
 # TODO:
-- allow for package and executable binary to have different names
+- [✔️] allow for package and executable  names to be different
+    - e.g. to package neovim, do:
+      ```
+      export CMD_TO_RUN="nvim"
+      ./build.sh neovim
+      ```
+

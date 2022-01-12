@@ -9,3 +9,5 @@
  eg. `./build.sh jq`
 will put a jq exec in the ./out folder
 
+# TODO:
+- allow for package and executable binary to have different names

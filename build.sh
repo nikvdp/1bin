@@ -2,9 +2,14 @@
 set -eu
 set -x
 
+# Usage:
+# ./build.sh <some-conda-package-with-an-executable>
+#  eg. `./build.sh jq`
+# will put a jq exec in the ./out folder
 RUN_ID="$(date +%s)"
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
-CMD_TO_RUN=(${@:-"nlpentities"})
+PKG_TO_INSTALL_NAME=(${@:-"nlpentities"})
+CMD_TO_RUN=(${CMD_TO_RUN:-$PKG_TO_INSTALL_NAME})
  # @note that CMD_TO_RUN is not used as an array below, which in bash means
  # CONDA_ENV_NAME to the first item of CMD_TO_RUN. so below means: if
  # CONDA_ENV_NAME is not set, set it to first item of CMD_TO_RUN array
@@ -50,7 +55,7 @@ pack-binary() {
 
 create-conda-env() {
     conda create --name "$CONDA_ENV_NAME" 
-    conda run --name "$CONDA_ENV_NAME" conda install --yes --use-local "$CMD_TO_RUN"
+    conda run --name "$CONDA_ENV_NAME" conda install --yes --use-local "$PKG_TO_INSTALL_NAME"
 }
 
 create-conda-env-from-env-yaml() {
@@ -98,5 +103,8 @@ main() {
 # echo BUNDLE_WORK_DIR="$BUNDLE_WORK_DIR"
 # echo WARP_ENTRY_POINT="$WARP_ENTRY_POINT"
 # echo WARP_ARCH="$WARP_ARCH"
+
+echo "PKG_TO_INSTALL_NAME: " $PKG_TO_INSTALL_NAME
+echo "CMD_TO_RUN: " $CMD_TO_RUN
 
 main

@@ -31,6 +31,7 @@ complex[npm]=nodejs
 complex[nvim]=neovim
 complex[ssh]=openssh
 complex[sshd]=openssh
+complex[java]=openjdk
 
 
 for cmd_name in "${!complex[@]}"; do 

@@ -22,6 +22,7 @@ sudo mv bat /usr/local/bin
 - [docker-compose](http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/docker-compose) - http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/docker-compose
 - [fzf](http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/fzf) - http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/fzf
 - [git](http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/git) - http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/git
+- [java](http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/java) - http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/java
 - [jc](http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/jc) - http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/jc
 - [jq](http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/jq) - http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/jq
 - [node](http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/node) - http://persistory.s3.us-west-1.wasabisys.com/bin4me/mac/node
@@ -65,9 +66,13 @@ sudo mv bat /usr/local/bin
 
 
 <!--
-useful snippets:
+useful commands:
 s3cmd.persistory ls s3://persistory/bin4me/mac/ 
 s3cmd.persistory ls s3://persistory/bin4me/linux/ 
+
+s3cmd.persistory sync . s3://persistory/bin4me/mac/
+s3cmd.persistory sync . s3://persistory/bin4me/linux/
+
 url prefix: http://persistory.s3.us-west-1.wasabisys.com/
 
 vim macros:

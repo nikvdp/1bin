@@ -19,11 +19,9 @@ simple=(
     git
     # jc
     tmux
-    nodejs
     socat
-    nc
     # yq
-    # pstree # non-existent
+    # pstree # no conda package
 )
 
 declare -A complex
@@ -33,7 +31,6 @@ complex[npm]=nodejs
 complex[nvim]=neovim
 complex[ssh]=openssh
 complex[sshd]=openssh
-complex[nc]=netcat
 
 
 for cmd_name in "${!complex[@]}"; do 

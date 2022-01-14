@@ -19,12 +19,14 @@ simple=(
     git
     # jc
     tmux
+    tmate
     socat
     # yq
     # pstree # no conda package
 )
 
 declare -A complex
+complex[ag]=the_silver_searcher
 complex[rg]=ripgrep
 complex[node]=nodejs
 complex[npm]=nodejs

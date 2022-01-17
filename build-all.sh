@@ -19,6 +19,7 @@ simple=(
     git
     openssl
     # jc
+    yarn
     tmux
     tmate
     socat

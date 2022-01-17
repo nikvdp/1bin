@@ -36,24 +36,23 @@ complex[ssh]=openssh
 complex[sshd]=openssh
 complex[java]=openjdk
 
-
-for cmd_name in "${!complex[@]}"; do 
+for cmd_name in "${!complex[@]}"; do
     if ! [[ -e "out/$cmd_name" ]]; then
         export CMD_TO_RUN="$cmd_name"
         PACKAGE_NAME="${complex[$cmd_name]}"
         echo "Building $cmd_name (package: $PACKAGE_NAME)"
 
-        ./build.sh "$PACKAGE_NAME" &> "$cmd_name".log
-    else 
+        ./build.sh "$PACKAGE_NAME" &>"$cmd_name".log
+    else
         echo "Skipping $cmd_name"
     fi
 done
 
 for i in "${simple[@]}"; do
-    if [[ -e "out/$i" ]]; then 
+    if [[ -e "out/$i" ]]; then
         echo "Skipping $i"
-    else 
+    else
         echo "Building $i..."
-        ./build.sh "$i" &> "$i".log
+        ./build.sh "$i" &>"$i".log
     fi
 done

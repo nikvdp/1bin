@@ -17,6 +17,7 @@ simple=(
     direnv
     docker-compose
     git
+    openssl
     # jc
     tmux
     tmate

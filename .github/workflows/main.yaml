@@ -77,7 +77,7 @@ jobs:
         #
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#set-an-environment-variable-set-env
         # [2]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
-        echo "FILES_TO_RELEASE=$(ls out/ | xargs echo)" >> $GITHUB_ENV
+        echo "FILES_TO_RELEASE=$(ls out/ | sed 's!^!out/!' | xargs echo)" >> $GITHUB_ENV
 
     # - name: Setup tmate session
     #   uses: mxschmitt/action-tmate@v3

@@ -63,13 +63,10 @@ jobs:
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
         echo "PATH=$PATH" >> $GITHUB_ENV
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
 
     - name: build 1bins 
       run: |
         ./build-all.sh
-        cd out
 
         # the weird echo :: syntax below is a special syntax supported by
         # github actions to set env vars and make them available to the next
@@ -81,6 +78,9 @@ jobs:
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#set-an-environment-variable-set-env
         # [2]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
         echo "FILES_TO_RELEASE=$(ls out/)" >> $GITHUB_ENV
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
 
     - uses: meeDamian/github-release@2.0
       with:

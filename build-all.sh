@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# set -eu
+set -eu
 # set -x
 
 # this script should be run by ci to build all the pkgs
@@ -37,23 +37,41 @@ complex[ag]=the_silver_searcher
 # complex[sshd]=openssh
 # complex[java]=openjdk
 
-for cmd_name in "${!complex[@]}"; do
-    if ! [[ -e "out/$cmd_name" ]]; then
-        export CMD_TO_RUN="$cmd_name"
-        PACKAGE_NAME="${complex[$cmd_name]}"
-        echo "Building $cmd_name (package: $PACKAGE_NAME)"
-
-        ./build.sh "$PACKAGE_NAME" &>"$cmd_name".log
-    else
-        echo "Skipping $cmd_name"
+check_status() {
+    local i="$1"
+    if [[ "$?" == 0 ]]; then 
+        echo "OK!"
+    else 
+        echo "ERROR!"
+        < "$i.log" | sed 's/^/>> /'
     fi
-done
+}
 
+echo "Building simple packages"
 for i in "${simple[@]}"; do
     if [[ -e "out/$i" ]]; then
         echo "Skipping $i"
     else
-        echo "Building $i..."
+        printf "Building $i... "
         ./build.sh "$i" &>"$i".log
+        check_status "$i"
     fi
 done
+
+echo "Finished building simple packages!"
+
+echo "Building complex packages (where pkg name and executable name differ)"
+for cmd_name in "${!complex[@]}"; do
+    if ! [[ -e "out/$cmd_name" ]]; then
+        PACKAGE_NAME="${complex[$cmd_name]}"
+        printf "Building $cmd_name (package: $PACKAGE_NAME)... "
+
+        export CMD_TO_RUN="$cmd_name"
+        ./build.sh "$PACKAGE_NAME" &> "$cmd_name".log
+        check_status "$cmd_name"
+    else
+        echo "Skipping $cmd_name"
+    fi
+done
+echo "Finished building complex packages!"
+

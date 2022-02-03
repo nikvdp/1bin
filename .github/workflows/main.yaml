@@ -59,9 +59,12 @@ jobs:
         install-warp-packer
 
 
-        # make sure the PATH stays set for subsequent jobs
-        echo ::set-env name=PATH::"$PATH"
+        # make sure the PATH stays set for subsequent jobs using an env file. see: [1]
+        # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        echo "PATH=$PATH" >> $GITHUB_ENV
 
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
 
     - name: build 1bins 
       run: |
@@ -70,13 +73,14 @@ jobs:
 
         # the weird echo :: syntax below is a special syntax supported by
         # github actions to set env vars and make them available to the next
-        # workflow step, see [1]. 
+        # workflow step, see [1] and [2]
         # here we are setting the FILES_TO_RELEASE env var to contain a space
         # separated list of all files present in the out/ dir (where
         # build-all.sh drops the 1bins)
         #
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#set-an-environment-variable-set-env
-        echo ::set-env name=FILES_TO_RELEASE::$(ls out/)
+        # [2]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        echo "FILES_TO_RELEASE=$(ls out/)" >> $GITHUB_ENV
 
     - uses: meeDamian/github-release@2.0
       with:

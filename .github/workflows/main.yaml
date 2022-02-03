@@ -76,13 +76,14 @@ jobs:
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
         echo "FILES_TO_RELEASE=$(ls out/ | sed 's!^!out/!' | xargs echo)" >> $GITHUB_ENV
 
-    - uses: meeDamian/github-release@2.0
+    - uses: softprops/action-gh-release@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        gzip: false
-        name: 1bin 
+        # token: ${{ secrets.GITHUB_TOKEN }}
+        # gzip: false
+        # name: 1bin 
         # the FILES_TO_RELEASE env var gets set via the GITHUB_ENV echo command in the previous step
         files: ${{ env.FILES_TO_RELEASE }}
+        # allow_override: true
 
 
   build-mac:
@@ -155,13 +156,13 @@ jobs:
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
         echo "FILES_TO_RELEASE=$(ls out/ | while read line; do echo "$line-mac:out/$line"; done | xargs echo)" >> $GITHUB_ENV
 
-    - uses: meeDamian/github-release@2.0
+    - uses: softprops/action-gh-release@v1
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        gzip: false
-        name: 1bin 
+        # token: ${{ secrets.GITHUB_TOKEN }}
+        # gzip: false
+        # name: 1bin 
         # the FILES_TO_RELEASE env var gets set via the GITHUB_ENV echo command in the previous step
         files: ${{ env.FILES_TO_RELEASE }}
-        allow_override: true
+        # allow_override: true
 
 

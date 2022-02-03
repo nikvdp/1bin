@@ -74,7 +74,7 @@ jobs:
         # env var, see [1]
         #
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
-        echo "FILES_TO_RELEASE=$(ls out/ | sed 's!^!out/!' | xargs echo)" >> $GITHUB_ENV
+        echo "FILES_TO_RELEASE=out/*" >> $GITHUB_ENV
 
     - uses: softprops/action-gh-release@v1
       with:
@@ -154,7 +154,10 @@ jobs:
         # env var, see [1]
         #
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
-        echo "FILES_TO_RELEASE=$(ls out/ | while read line; do echo "$line-mac:out/$line"; done | xargs echo)" >> $GITHUB_ENV
+        pushd out
+        for i in *; do mv "$i" "mac-$i"; done
+        popd
+        echo "FILES_TO_RELEASE=out/*" >> $GITHUB_ENV
 
     - uses: softprops/action-gh-release@v1
       with:

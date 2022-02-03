@@ -20,13 +20,13 @@ simple=(
     wget
     yarn
     # to test
-    # # tldr
-    # # shfmt
-    # # mplayer
-    # # ncdu
-    # # gh
-    # # fd
-    # # ffmpeg
+    tldr
+    shfmt
+    mplayer
+    ncdu
+    gh
+    fd
+    ffmpeg
     # packages below don't work for various reasons
     # # curl  # builds, but gives ssl errors. probably a dep issue
     # # jc    # builds, but needs to use my formula

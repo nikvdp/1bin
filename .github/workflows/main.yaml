@@ -144,7 +144,8 @@ jobs:
 
     - name: build 1bins 
       run: |
-        ./build-all.sh
+        brew install bash
+        /usr/local/bin/bash build-all.sh
 
         # here we are setting the FILES_TO_RELEASE env var to contain a space
         # separated list of all files present in the out/ dir (where
@@ -161,5 +162,6 @@ jobs:
         name: 1bin 
         # the FILES_TO_RELEASE env var gets set via the GITHUB_ENV echo command in the previous step
         files: ${{ env.FILES_TO_RELEASE }}
+        allow_override: true
 
 

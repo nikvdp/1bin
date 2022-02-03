@@ -77,15 +77,15 @@ jobs:
         #
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#set-an-environment-variable-set-env
         # [2]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
-        echo "FILES_TO_RELEASE=$(ls out/)" >> $GITHUB_ENV
+        echo "FILES_TO_RELEASE=$(ls out/ | xargs echo)" >> $GITHUB_ENV
 
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
+    # - name: Setup tmate session
+    #   uses: mxschmitt/action-tmate@v3
 
     - uses: meeDamian/github-release@2.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        gzip: no 
+        gzip: false
         name: 1bin 
         # the FILES_TO_RELEASE env var gets set via the echo command in the previous step
         files: ${{env.FILES_TO_RELEASE}}

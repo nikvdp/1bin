@@ -5,26 +5,32 @@ set -eu
 # this script should be run by ci to build all the pkgs
 
 simple=(
-    curl
-    wget
-    tree
     bat
-    pv
-    pandoc
-    fzf
-    jq
-    rsync
     direnv
     docker-compose
+    fzf
     git
-    openssl
-    yarn
-    tmux
-    tmate
+    jq
+    pv
+    rsync
     socat
+    tmate
+    tmux
+    tree
+    wget
+    yarn
+    # to test
+    # # tldr
+    # # shfmt
+    # # mplayer
+    # # ncdu
+    # # gh
+    # # fd
+    # # ffmpeg
     # packages below don't work for various reasons
-    # # jc
-    # # yq
+    # # curl  # builds, but gives ssl errors. probably a dep issue
+    # # jc    # builds, but needs to use my formula
+    # # yq    # ? not sure
     # # pstree # no conda package
 )
 
@@ -40,11 +46,11 @@ complex[java]=openjdk
 
 check_status() {
     local i="$1"
-    if [[ "$?" == 0 ]]; then 
+    if [[ "$?" == "0" ]]; then
         echo "OK!"
-    else 
+    else
         echo "ERROR!"
-        < "$i.log" | sed 's/^/>> /'
+        sed <"$i.log" 's/^/>> /'
     fi
 }
 
@@ -68,11 +74,10 @@ for cmd_name in "${!complex[@]}"; do
         printf "Building $cmd_name (package: $PACKAGE_NAME)... "
 
         export CMD_TO_RUN="$cmd_name"
-        ./build.sh "$PACKAGE_NAME" &> "$cmd_name".log
+        ./build.sh "$PACKAGE_NAME" &>"$cmd_name".log
         check_status "$cmd_name"
     else
         echo "Skipping $cmd_name"
     fi
 done
 echo "Finished building complex packages!"
-

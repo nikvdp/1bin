@@ -9,7 +9,7 @@ jobs:
 
   build-linux:
     runs-on: ubuntu-latest
-
+    steps:
     - uses: actions/checkout@v2
 
     - name: install deps
@@ -72,7 +72,7 @@ jobs:
         # build-all.sh drops the 1bins)
         #
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#set-an-environment-variable-set-env
-        echo  ::set-env name=FILES_TO_RELEASE::$(ls out/)
+        echo ::set-env name=FILES_TO_RELEASE::$(ls out/)
 
     - uses: meeDamian/github-release@2.0
       with:

@@ -85,3 +85,81 @@ jobs:
         files: ${{ env.FILES_TO_RELEASE }}
 
 
+  build-mac:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: install deps
+      run: |
+        install_conda() {
+          local platform=$(uname)
+          [[ "$platform" == "Darwin" ]] && platform="MacOSX"
+
+          local miniconda="$(mktemp)"
+          curl -L "https://repo.continuum.io/miniconda/Miniconda3-latest-$platform-x86_64.sh" >"$miniconda"
+          bash "$miniconda" -b -p $HOME/miniconda3
+          rm "$miniconda"
+
+          if ! [[ -f ~/.condarc ]]; then
+            echo ">>> Writing $HOME/.condarc"
+            cat >$HOME/.condarc <<EOF
+        always_yes: true
+        channels:
+            - conda-forge
+            - defaults
+        EOF
+
+          fi
+          # ensure conda is on path for the rest of this script
+          export PATH=$HOME/miniconda3/bin:$HOME/miniconda2/bin:$PATH
+        }
+        install_conda
+
+        conda install conda-pack
+
+        install-warp-packer() {
+          local platform=$(uname)
+          local warp_dl_url
+          if [[ "$platform" == "Darwin" ]]; then 
+            platform="macos"
+          elif [[ "$platform" == "Linux" ]]; then 
+            platform="linux"
+          fi
+
+          local warp_dl_url="https://github.com/nikvdp/warp/releases/download/v0.4.6/$platform-x64.warp-packer"
+
+          mkdir -p ~/bin
+          wget "$warp_dl_url" -O ~/bin/warp-packer
+          chmod +x ~/bin/warp-packer
+          export PATH="$HOME/bin:$PATH"
+        }
+        install-warp-packer
+
+
+        # make sure the PATH stays set for subsequent jobs using an env file. see: [1]
+        # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        echo "PATH=$PATH" >> $GITHUB_ENV
+
+
+    - name: build 1bins 
+      run: |
+        ./build-all.sh
+
+        # here we are setting the FILES_TO_RELEASE env var to contain a space
+        # separated list of all files present in the out/ dir (where
+        # build-all.sh drops the 1bins). GITHUB_ENV is a special github actions
+        # env var, see [1]
+        #
+        # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        echo "FILES_TO_RELEASE=$(ls out/ | while read line; do echo "$line-mac:out/$line"; done | xargs echo)" >> $GITHUB_ENV
+
+    - uses: meeDamian/github-release@2.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        gzip: false
+        name: 1bin 
+        # the FILES_TO_RELEASE env var gets set via the GITHUB_ENV echo command in the previous step
+        files: ${{ env.FILES_TO_RELEASE }}
+
+

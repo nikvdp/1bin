@@ -59,6 +59,10 @@ jobs:
         install-warp-packer
 
 
+        # make sure the PATH stays set for subsequent jobs
+        echo ::set-env name=PATH::"$PATH"
+
+
     - name: build 1bins 
       run: |
         ./build-all.sh

@@ -68,26 +68,20 @@ jobs:
       run: |
         ./build-all.sh
 
-        # the weird echo :: syntax below is a special syntax supported by
-        # github actions to set env vars and make them available to the next
-        # workflow step, see [1] and [2]
         # here we are setting the FILES_TO_RELEASE env var to contain a space
         # separated list of all files present in the out/ dir (where
-        # build-all.sh drops the 1bins)
+        # build-all.sh drops the 1bins). GITHUB_ENV is a special github actions
+        # env var, see [1]
         #
-        # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#set-an-environment-variable-set-env
-        # [2]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
         echo "FILES_TO_RELEASE=$(ls out/ | sed 's!^!out/!' | xargs echo)" >> $GITHUB_ENV
-
-    # - name: Setup tmate session
-    #   uses: mxschmitt/action-tmate@v3
 
     - uses: meeDamian/github-release@2.0
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
         gzip: false
         name: 1bin 
-        # the FILES_TO_RELEASE env var gets set via the echo command in the previous step
-        files: ${{env.FILES_TO_RELEASE}}
+        # the FILES_TO_RELEASE env var gets set via the GITHUB_ENV echo command in the previous step
+        files: ${{ env.FILES_TO_RELEASE }}
 
 

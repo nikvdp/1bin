@@ -8,32 +8,33 @@ simple=(
     bat
     direnv
     docker-compose
+    ffmpeg
     fzf
+    gh
     git
     jq
+    ncdu
     pv
     rsync
-    socat
+    tldr
     tmate
     tmux
     tree
     wget
     yarn
-    # to test
-    tldr
-    shfmt
-    mplayer
-    ncdu
-    gh
-    fd
-    ffmpeg
+    yq
     # packages below don't work for various reasons
-    # # curl  # builds, but gives ssl errors. probably a dep issue
-    # # jc    # builds, but needs to use my formula
-    # # yq    # ? not sure
-    # # pstree # no conda package
+    # # socat   # builds, but binary gives a dyld link error
+    # # curl    # builds, but gives ssl errors. probably a dep issue
+    # # jc      # builds, but needs to use my formula
+    # # fd      # there's a package, but it doesn't seem to install a usable bin
+    # # pstree  # no conda package
+    # # mplayer # no conda package
+    # # shfmt   # no conda package
+    # # howdoi  # no conda package
 )
 
+# format is: complex[<cmd-to-run>]=<package-name>
 declare -A complex
 complex[ag]=the_silver_searcher
 complex[rg]=ripgrep
@@ -43,6 +44,7 @@ complex[nvim]=neovim
 complex[ssh]=openssh
 complex[sshd]=openssh
 complex[java]=openjdk
+# complex[nc]=netcat  # there's no netcat package??
 
 check_status() {
     local i="$1"
@@ -50,7 +52,7 @@ check_status() {
         echo "OK!"
     else
         echo "ERROR!"
-        sed <"$i.log" 's/^/>> /'
+        sed <"$i.log" 's/^/>> /' || true # using a `|| true` so we don't exit the script if one pkg fails
     fi
 }
 

@@ -24,7 +24,7 @@ simple=(
     yarn
     yq
     # packages below don't work for various reasons
-    # # socat   # builds, but binary gives a dyld link error
+    # # socat   # builds, lin works but binary gives a dyld link error on mac
     # # curl    # builds, but gives ssl errors. probably a dep issue
     # # jc      # builds, but needs to use my formula
     # # fd      # there's a package, but it doesn't seem to install a usable bin

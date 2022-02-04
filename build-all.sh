@@ -18,7 +18,6 @@ simple=(
     pv
     rsync
     tldr
-    tmate
     tmux
     tree
     wget
@@ -26,6 +25,7 @@ simple=(
     yq
     zsh
     # packages below don't work for various reasons
+    # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
     # # socat   # builds, lin works but binary gives a dyld link error on mac
     # # curl    # builds, but gives ssl errors. probably a dep issue
     # # jc      # builds, but needs to use my formula

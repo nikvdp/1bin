@@ -5,6 +5,7 @@ set -eu
 # this script should be run by ci to build all the pkgs
 
 simple=(
+    bash
     bat
     direnv
     docker-compose
@@ -23,6 +24,7 @@ simple=(
     wget
     yarn
     yq
+    zsh
     # packages below don't work for various reasons
     # # socat   # builds, lin works but binary gives a dyld link error on mac
     # # curl    # builds, but gives ssl errors. probably a dep issue

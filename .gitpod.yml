@@ -1,0 +1,16 @@
+image: nikvdp/gitpod
+# List the start up tasks. Learn more https://www.gitpod.io/docs/config-start-tasks/
+tasks:
+  - init: echo 'init script' # runs during prebuild
+    command: |
+      cd custom-recipes
+      for i in *; do 
+        cd "$i"
+        conda build
+        cd .. 
+      done
+
+# List the ports to expose. Learn more https://www.gitpod.io/docs/config-ports/
+# ports:
+#   - port: 3000
+#     onOpen: open-preview

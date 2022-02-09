@@ -3,6 +3,24 @@ image: nikvdp/gitpod
 tasks:
   - init: echo 'init script' # runs during prebuild
     command: |
+      conda install conda-build conda-pack
+      install-warp-packer() {
+        local platform=$(uname)
+        local warp_dl_url
+        if [[ "$platform" == "Darwin" ]]; then 
+          platform="macos"
+        elif [[ "$platform" == "Linux" ]]; then 
+          platform="linux"
+        fi
+
+        local warp_dl_url="https://github.com/nikvdp/warp/releases/download/v0.4.6/$platform-x64.warp-packer"
+
+        mkdir -p ~/bin
+        wget "$warp_dl_url" -O ~/bin/warp-packer
+        chmod +x ~/bin/warp-packer
+        export PATH="$HOME/bin:$PATH"
+      }
+      install-warp-packer
       cd custom-recipes
       for i in *; do 
         cd "$i"

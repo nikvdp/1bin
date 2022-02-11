@@ -7,16 +7,24 @@ set -eu
 simple=(
     bash
     bat
+    datasette
     direnv
     docker-compose
+    exa
     ffmpeg
     fzf
+    gawk
     gh
     git
+    httpie
     jq
     ncdu
+    perl
+    python3
     pv
+    rclone
     rsync
+    s3cmd
     tldr
     tmux
     tree

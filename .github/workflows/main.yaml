@@ -157,6 +157,9 @@ jobs:
         popd
         echo "FILES_TO_RELEASE=out/*" >> $GITHUB_ENV
 
+    - name: trigger 1bin.org re-deploy
+      run: https://api.vercel.com/v1/integrations/deploy/prj_lDCYBX38pUyHVmNrQriW8I2sKzLE/i27ili9oYA
+
     - uses: softprops/action-gh-release@v1
       with:
         # the FILES_TO_RELEASE env var gets set via the GITHUB_ENV echo command in the previous step

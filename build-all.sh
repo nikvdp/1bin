@@ -45,16 +45,16 @@ simple=(
 # format is: complex[<cmd-to-run>]=<package-name>
 declare -A complex
 complex[ag]=the_silver_searcher
-complex[rg]=ripgrep
 complex[http]=httpie
+complex[java]=openjdk
 complex[node]=nodejs
 complex[npm]=nodejs
 complex[nvim]=neovim
 complex[python]=python3
+complex[rg]=ripgrep
+complex[sqlite3]=sqlite
 complex[ssh]=openssh
 complex[sshd]=openssh
-complex[sqlite3]=sqlite
-complex[java]=openjdk
 # complex[nc]=netcat  # there's no netcat package??
 
 check_status() {

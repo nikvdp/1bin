@@ -53,6 +53,7 @@ complex[nvim]=neovim
 complex[python]=python3
 complex[ssh]=openssh
 complex[sshd]=openssh
+complex[sqlite3]=sqlite
 complex[java]=openjdk
 # complex[nc]=netcat  # there's no netcat package??
 

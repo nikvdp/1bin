@@ -72,7 +72,7 @@ for i in "${simple[@]}"; do
         echo "Skipping $i"
     else
         printf "Building $i... "
-        ./build.sh "$i" &>"$i".log
+        ./build.sh "$i" &>"$i".log || true
         check_status "$i"
     fi
 done
@@ -86,7 +86,7 @@ for cmd_name in "${!complex[@]}"; do
         printf "Building $cmd_name (package: $PACKAGE_NAME)... "
 
         export CMD_TO_RUN="$cmd_name"
-        ./build.sh "$PACKAGE_NAME" &>"$cmd_name".log
+        ./build.sh "$PACKAGE_NAME" &>"$cmd_name".log || true
         check_status "$cmd_name"
     else
         echo "Skipping $cmd_name"

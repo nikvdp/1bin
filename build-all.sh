@@ -20,7 +20,6 @@ simple=(
     jq
     ncdu
     perl
-    python3
     pv
     rclone
     rsync
@@ -51,6 +50,7 @@ complex[rg]=ripgrep
 complex[node]=nodejs
 complex[npm]=nodejs
 complex[nvim]=neovim
+complex[python]=python3
 complex[ssh]=openssh
 complex[sshd]=openssh
 complex[java]=openjdk

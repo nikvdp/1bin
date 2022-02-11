@@ -16,7 +16,6 @@ simple=(
   gawk
   gh
   git
-  httpie
   jq
   ncdu
   perl
@@ -47,6 +46,7 @@ simple=(
 declare -A complex
 complex[ag]=the_silver_searcher
 complex[rg]=ripgrep
+complex[http]=httpie
 complex[node]=nodejs
 complex[npm]=nodejs
 complex[nvim]=neovim

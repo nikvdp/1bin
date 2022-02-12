@@ -6,38 +6,40 @@ set -eu
 
 simple=(
     bash
-    go
-    deno
-    youtube-dl
-    yt-dlp
-    emacs
-    vim
     bat
     datasette
+    deno
     direnv
     docker-compose
+    emacs
     exa
     ffmpeg
     fzf
     gawk
     gh
     git
+    go
     jq
+    mosh
     ncdu
+    nginx
     perl
+    pipenv
+    poetry
     pv
     rclone
     rsync
     s3cmd
     tldr
     tree
+    vim
     wget
-    yarn
-    yq
-    zsh
     xonsh
-    poetry
-    pipenv
+    yarn
+    youtube-dl
+    yq
+    yt-dlp
+    zsh
     # packages below don't work for various reasons
     # # tmux    # builds, but doesn't start (message about term not supporting clear)
     # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
@@ -53,7 +55,10 @@ simple=(
 
 # format is: complex[<cmd-to-run>]=<package-name>
 declare -A complex
+complex["redis-cli"]=redis
 complex[ag]=the_silver_searcher
+complex["mosh-client"]=mosh
+complex["mosh-server"]=mosh
 complex[cargo]=rust
 complex[convert]=imagemagick
 complex[ffprobe]=ffmpeg
@@ -66,7 +71,6 @@ complex[npm]=nodejs
 complex[npx]=nodejs
 complex[nvim]=neovim
 complex[python]=python3
-complex["redis-cli"]=redis
 complex[rg]=ripgrep
 complex[rustc]=rust
 complex[sqlite3]=sqlite

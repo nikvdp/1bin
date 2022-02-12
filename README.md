@@ -1,6 +1,8 @@
 # 1bin - easily build “static” binaries of any CLI tool
 
-1bin lets you easily build “static” binaries of pretty much any command line program. This repo is also wired up with a GitHub action to publish `curl`/`wget`-able links to [1bin.org](https://1bin.org) of the form `wget 1bin.org/$(uname)/<some-program>`. Pull requests to add new tools welcome.
+1bin lets you easily build “static” binaries of pretty much any command line program. 
+
+It's website, [1bin.org](https://1bin.org) contains `curl`/`wget`-able friendly links that you can use like so: `wget 1bin.org/$(uname)/<some-program>`. These links are updated on each push to master to reflect any new tools or deletions. Pull requests to add new tools welcome.
 
 Using the scripts here you can build pretty much anything that can be packaged with [conda](https://www.anaconda.com/), which is... pretty much everything. 
 
@@ -8,7 +10,9 @@ Using the scripts here you can build pretty much anything that can be packaged w
 
 ## Usage
 
-If you just want to run programs without having to do any installation, head over to [1bin.org](https://1bin.org), use cmd/ctrl+f to find the program you’re after and then paste the code snippet to your machine to run it instantly (or at least as instantly as your ISP allows), no fuss no muss. 
+If you just want to run programs without having to do any installation, head over to [1bin.org](https://1bin.org), find the program you’re after, and then paste the code snippet into a terminal on your machine to run it instantly (or at least as instantly as your ISP allows), no fuss no muss. 
+
+All binaries are also available on this project's [Github Releases](https://github.com/nikvdp/1bin/releases) page for direct download if you prefer.
 
 ## What is this?
 
@@ -16,7 +20,7 @@ An unholy agglomeration of some hairy bash scripting, github actions, [conda](ht
 
 Some potential use cases: 
 
-- easily use popular command-line tools from inside restricted environments such as docker containers
+- easily use popular command-line tools from inside restricted environments such as docker containers or CI environments on both Mac and Linux
 - easily install command-line tools for one off use-cases on someone else’s machine
 - make more portable shell scripts that can download any needed third party tools on the fly, regardless of what package managers the OS has provided
 - (relatively) easily create self-contained and easily deployable packages of your own software for distributing to your end users.

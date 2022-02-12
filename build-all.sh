@@ -30,7 +30,6 @@ simple=(
     rsync
     s3cmd
     tldr
-    tmux
     tree
     wget
     yarn
@@ -40,6 +39,7 @@ simple=(
     poetry
     pipenv
     # packages below don't work for various reasons
+    # # tmux    # builds, but doesn't start (message about term not supporting clear)
     # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
     # # socat   # builds, lin works but binary gives a dyld link error on mac
     # # curl    # builds, but gives ssl errors. probably a dep issue

@@ -6,6 +6,12 @@ set -eu
 
 simple=(
   bash
+  go
+  deno
+  youtube-dl
+  yt-dlp
+  emacs
+  vim
   bat
   datasette
   direnv
@@ -30,6 +36,9 @@ simple=(
   yarn
   yq
   zsh
+  xonsh
+  poetry
+  pipenv
   # packages below don't work for various reasons
   # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
   # # socat   # builds, lin works but binary gives a dyld link error on mac
@@ -45,13 +54,21 @@ simple=(
 # format is: complex[<cmd-to-run>]=<package-name>
 declare -A complex
 complex[ag]=the_silver_searcher
+complex[cargo]=rust
+complex[convert]=imagemagick
+complex[ffprobe]=ffmpeg
+complex[gtimeout]=gnu-coreutils  # bin should be called timeout, but no support for that yet
 complex[http]=httpie
 complex[java]=openjdk
+complex[mogrify]=imagemagick
 complex[node]=nodejs
 complex[npm]=nodejs
+complex[npx]=nodejs
 complex[nvim]=neovim
 complex[python]=python3
+complex[redis-cli]=redis
 complex[rg]=ripgrep
+complex[rustc]=rust
 complex[sqlite3]=sqlite
 complex[ssh]=openssh
 complex[sshd]=openssh

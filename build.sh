@@ -22,75 +22,75 @@ WARP_ENTRY_POINT="${BUNDLE_WORK_DIR}/bin/warp-entrypoint.sh"
 WARP_ARCH="$(uname | sed 's/Darwin/macos/' | sed 's/Linux/linux/')-x64"
 
 write-warp-entrypoint() {
-  # writes a small stub script that prepends the directory it finds itself in
-  # to the PATH before calling into the python script. This ensures the
-  # shebang at the beginning of the python script calls the bundled python
-  # interpreter.
-  # the odd `echo ${CMD_TO_RUN[@]@Q}` bit takes care of quoting CMD_TO_RUN
-  # properly, see [1]
-  #
-  # WARNING: be sure not to insert a new-line in front of #!/usr/bin/env bash or
-  # you'll get confusing 'Exec format error' messages!
-  # [1]: https://listed.to/@dhamidi/29004/bash-quoting-code
-  echo >"$WARP_ENTRY_POINT" '#!/usr/bin/env bash
+    # writes a small stub script that prepends the directory it finds itself in
+    # to the PATH before calling into the python script. This ensures the
+    # shebang at the beginning of the python script calls the bundled python
+    # interpreter.
+    # the odd `echo ${CMD_TO_RUN[@]@Q}` bit takes care of quoting CMD_TO_RUN
+    # properly, see [1]
+    #
+    # WARNING: be sure not to insert a new-line in front of #!/usr/bin/env bash or
+    # you'll get confusing 'Exec format error' messages!
+    # [1]: https://listed.to/@dhamidi/29004/bash-quoting-code
+    echo >"$WARP_ENTRY_POINT" '#!/usr/bin/env bash
 SCRIPT_DIR="$( cd "$( dirname "$0" )" && pwd )"
 
 export PATH="$SCRIPT_DIR:$PATH"
 
 exec '${CMD_TO_RUN[@]@Q}' "$@"
 '
-  chmod +x "$WARP_ENTRY_POINT"
+    chmod +x "$WARP_ENTRY_POINT"
 }
 pack-binary() {
-  mkdir -p "$OUTPUT_DIR" &>/dev/null
-  # ⚠️   @NOTE! This requires the custom appid fork of warp from [1] to be on PATH!
-  # [1]: https://github.com/marcellus-trixus/warp/tree/customAppId
-  warp-packer \
-    --arch "$WARP_ARCH" \
-    --input_dir "$BUNDLE_WORK_DIR" \
-    --exec "bin/$(basename "${WARP_ENTRY_POINT}")" \
-    --unique_id \
-    --output "${OUTPUT_DIR}/$OUTPUT_BIN_NAME"
+    mkdir -p "$OUTPUT_DIR" &>/dev/null
+    # ⚠️   @NOTE! This requires the custom appid fork of warp from [1] to be on PATH!
+    # [1]: https://github.com/marcellus-trixus/warp/tree/customAppId
+    warp-packer \
+        --arch "$WARP_ARCH" \
+        --input_dir "$BUNDLE_WORK_DIR" \
+        --exec "bin/$(basename "${WARP_ENTRY_POINT}")" \
+        --unique_id \
+        --output "${OUTPUT_DIR}/$OUTPUT_BIN_NAME"
 }
 
 create-conda-env() {
-  conda create --name "$CONDA_ENV_NAME"
-  conda run --name "$CONDA_ENV_NAME" conda install --yes --use-local "$PKG_TO_INSTALL_NAME"
+    conda create --name "$CONDA_ENV_NAME"
+    conda run --name "$CONDA_ENV_NAME" conda install --yes --use-local "$PKG_TO_INSTALL_NAME"
 }
 
 create-conda-env-from-env-yaml() {
-  if conda env list | grep -q "$CONDA_ENV_NAME"; then
-    echo "Updating existing conda env '$CONDA_ENV_NAME'"
-    conda env update --name "$CONDA_ENV_NAME" --file "$SCRIPT_DIR/environment.yaml"
-  else
-    echo "Creating new conda env '$CONDA_ENV_NAME'"
-    conda env create --name "$CONDA_ENV_NAME" --file "$SCRIPT_DIR/environment.yaml"
-  fi
+    if conda env list | grep -q "$CONDA_ENV_NAME"; then
+        echo "Updating existing conda env '$CONDA_ENV_NAME'"
+        conda env update --name "$CONDA_ENV_NAME" --file "$SCRIPT_DIR/environment.yaml"
+    else
+        echo "Creating new conda env '$CONDA_ENV_NAME'"
+        conda env create --name "$CONDA_ENV_NAME" --file "$SCRIPT_DIR/environment.yaml"
+    fi
 
-  # install nlpentities into the conda env
-  cd "$SCRIPT_DIR"/..
-  conda run -n "$CONDA_ENV_NAME" pip install .
+    # install nlpentities into the conda env
+    cd "$SCRIPT_DIR"/..
+    conda run -n "$CONDA_ENV_NAME" pip install .
 }
 
 pack-conda-env() {
-  conda-pack --name "$CONDA_ENV_NAME" --force --output "$CONDAPACK_TARBALL"
-  mkdir -p "$BUNDLE_WORK_DIR"
-  echo "Creating bundle work dir: '$BUNDLE_WORK_DIR'"
-  tar -C "$BUNDLE_WORK_DIR" -xf "$CONDAPACK_TARBALL"
-  rm "$CONDAPACK_TARBALL"
+    conda-pack --name "$CONDA_ENV_NAME" --force --output "$CONDAPACK_TARBALL"
+    mkdir -p "$BUNDLE_WORK_DIR"
+    echo "Creating bundle work dir: '$BUNDLE_WORK_DIR'"
+    tar -C "$BUNDLE_WORK_DIR" -xf "$CONDAPACK_TARBALL"
+    rm "$CONDAPACK_TARBALL"
 }
 
 cleanup() {
-  rm -rf "$BUNDLE_WORK_DIR"
-  conda env remove --name "$CONDA_ENV_NAME"
+    rm -rf "$BUNDLE_WORK_DIR"
+    conda env remove --name "$CONDA_ENV_NAME"
 }
 
 main() {
-  create-conda-env
-  pack-conda-env
-  write-warp-entrypoint
-  pack-binary
-  cleanup
+    create-conda-env
+    pack-conda-env
+    write-warp-entrypoint
+    pack-binary
+    cleanup
 }
 
 # echo SCRIPT_DIR="$SCRIPT_DIR"

@@ -40,6 +40,7 @@ simple=(
     rclone
     rsync
     s3cmd
+    socat
     tldr
     tree
     vim
@@ -53,7 +54,6 @@ simple=(
     # packages below don't work for various reasons
     # # tmux    # builds, but doesn't start (message about term not supporting clear)
     # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
-    # # socat   # builds, lin works but binary gives a dyld link error on mac
     # # curl    # builds, but gives ssl errors. probably a dep issue
     # # jc      # builds, but needs to use my formula
     # # fd      # there's a package, but it doesn't seem to install a usable bin

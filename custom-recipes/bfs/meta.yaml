@@ -11,6 +11,9 @@ requirements:
     - {{ compiler('c') }}
     - bash 
     - make
+    - attr
+    - libacl
+    - libcap
 
   # run:
   #   - python

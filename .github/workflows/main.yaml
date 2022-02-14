@@ -40,6 +40,8 @@ jobs:
 
         conda install conda-pack
 
+        conda install conda-build
+
         install-warp-packer() {
           local platform=$(uname)
           local warp_dl_url
@@ -114,6 +116,8 @@ jobs:
 
         conda install conda-pack
 
+        conda install conda-build
+
         install-warp-packer() {
           local platform=$(uname)
           local warp_dl_url
@@ -137,6 +141,8 @@ jobs:
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
         echo "PATH=$PATH" >> $GITHUB_ENV
 
+    # - name: Setup tmate session
+    #   uses: mxschmitt/action-tmate@v3
 
     - name: build 1bins
       run: |

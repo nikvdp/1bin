@@ -103,8 +103,9 @@ build-custom-packages() {
         cd "$SCRIPT_DIR/custom-recipes"
         cd "$p"
         printf "Building custom conda package for '$p'..."
-        conda build . && echo "OK!" || echo "Error!"
+        conda build . && echo "OK!" || echo "Error!" || true
     done
+    true
 }
 
 build-simple-packages() {

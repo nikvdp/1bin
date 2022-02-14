@@ -8,6 +8,7 @@ source:
 
 requirements:
   build:
+    - {{ compiler('c') }}
     - bash 
     - make
 

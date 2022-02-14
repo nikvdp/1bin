@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-set -eu
+set -u
 # set -x
 
 # this script should be run by ci to build all the pkgs
@@ -100,11 +100,11 @@ check_status() {
 
 build-custom-packages() {
     for p in "${custom_pkgs[@]}"; do
-        cd "$SCRIPT_DIR/custom-recipes"
-        cd "$p"
+        cd "$SCRIPT_DIR/custom-recipes/$p"
         printf "Building custom conda package for '$p'..."
         conda build . && echo "OK!" || echo "Error!" || true
     done
+    cd "$SCRIPT_DIR"
     true
 }
 

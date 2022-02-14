@@ -1,8 +1,16 @@
 #!/usr/bin/env bash
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
 set -eu
 # set -x
 
 # this script should be run by ci to build all the pkgs
+
+custom_pkgs=(
+    bfs
+    jc
+    netcat
+)
 
 simple=(
     bash
@@ -88,30 +96,50 @@ check_status() {
     fi
 }
 
-echo "Building simple packages"
-for i in "${simple[@]}"; do
-    if [[ -e "out/$i" ]]; then
-        echo "Skipping $i"
-    else
-        printf "Building $i... "
-        ./build.sh "$i" &>"$i".log || true
-        check_status "$i"
-    fi
-done
+build-custom-packages() {
+    for p in "${custom_pkgs[@]}"; do
+        cd "$SCRIPT_DIR/custom-recipes"
+        cd "$p"
+        printf "Building custom conda package for '$p'..."
+        conda build . && echo "OK!" || echo "Error!"
+    done
+}
 
-echo "Finished building simple packages!"
+build-simple-packages() {
+    echo "Building simple 1bins"
+    for i in "${simple[@]}"; do
+        if [[ -e "out/$i" ]]; then
+            echo "Skipping $i"
+        else
+            printf "Building $i... "
+            ./build.sh "$i" &>"$i".log || true
+            check_status "$i"
+        fi
+    done
+    echo "Finished building simple 1bins!"
+}
 
-echo "Building complex packages (where pkg name and executable name differ)"
-for cmd_name in "${!complex[@]}"; do
-    if ! [[ -e "out/$cmd_name" ]]; then
-        PACKAGE_NAME="${complex[$cmd_name]}"
-        printf "Building $cmd_name (package: $PACKAGE_NAME)... "
+build-complex-packages() {
+    echo "Building complex 1bins (where pkg name and executable name differ)"
+    for cmd_name in "${!complex[@]}"; do
+        if ! [[ -e "out/$cmd_name" ]]; then
+            PACKAGE_NAME="${complex[$cmd_name]}"
+            printf "Building $cmd_name (package: $PACKAGE_NAME)... "
 
-        export CMD_TO_RUN="$cmd_name"
-        ./build.sh "$PACKAGE_NAME" &>"$cmd_name".log || true
-        check_status "$cmd_name"
-    else
-        echo "Skipping $cmd_name"
-    fi
-done
-echo "Finished building complex packages!"
+            export CMD_TO_RUN="$cmd_name"
+            ./build.sh "$PACKAGE_NAME" &>"$cmd_name".log || true
+            check_status "$cmd_name"
+        else
+            echo "Skipping $cmd_name"
+        fi
+    done
+    echo "Finished building complex 1bins!"
+}
+
+main() {
+    build-custom-packages
+    build-simple-packages
+    build-complex-packages
+}
+
+main

@@ -1,0 +1,26 @@
+{% set version = "0.7.1" %}
+package:
+  name: netcat
+  version: {{ version }}
+
+source:
+  url: https://downloads.sourceforge.net/project/netcat/netcat/{{ version }}/netcat-{{ version }}.tar.gz
+  sha256: 30719c9a4ffbcf15676b8f528233ccc54ee6cba96cb4590975f5fd60c68a066f
+
+requirements:
+  build:
+  - bash 
+  - readline
+  - make
+  - {{ compiler('c') }}
+
+  run:
+  - openssl
+  - readline
+
+# test:
+#   imports:
+    # -
+
+about:
+  home: http://netcat.sourceforge.net

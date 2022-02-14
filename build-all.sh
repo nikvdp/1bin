@@ -15,6 +15,7 @@ custom_pkgs=(
 simple=(
     bash
     bat
+    bfs
     datasette
     deno
     direnv
@@ -30,6 +31,7 @@ simple=(
     jq
     mosh
     ncdu
+    netcat
     nginx
     perl
     pipenv
@@ -63,10 +65,10 @@ simple=(
 
 # format is: complex[<cmd-to-run>]=<package-name>
 declare -A complex
-complex["redis-cli"]=redis
-complex[ag]=the_silver_searcher
 complex["mosh-client"]=mosh
 complex["mosh-server"]=mosh
+complex["redis-cli"]=redis
+complex[ag]=the_silver_searcher
 complex[cargo]=rust
 complex[convert]=imagemagick
 complex[ffprobe]=ffmpeg
@@ -74,6 +76,7 @@ complex[gtimeout]=gnu-coreutils # bin should be called timeout, but no support f
 complex[http]=httpie
 complex[java]=openjdk
 complex[mogrify]=imagemagick
+complex[nc]=netcat
 complex[node]=nodejs
 complex[npm]=nodejs
 complex[npx]=nodejs
@@ -84,7 +87,6 @@ complex[rustc]=rust
 complex[sqlite3]=sqlite
 complex[ssh]=openssh
 complex[sshd]=openssh
-# complex[nc]=netcat  # there's no netcat package??
 
 check_status() {
     local i="$1"

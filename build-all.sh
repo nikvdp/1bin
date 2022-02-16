@@ -8,6 +8,7 @@ set -u
 
 custom_pkgs=(
     bfs
+    fd
     jc
     netcat
 )

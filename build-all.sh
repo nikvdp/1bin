@@ -34,6 +34,7 @@ simple=(
     netcat
     nginx
     perl
+    pgcli
     pipenv
     poetry
     pv

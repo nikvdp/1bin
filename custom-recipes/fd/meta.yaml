@@ -1,0 +1,23 @@
+package:
+  name: fd
+  version: 8.3.2
+
+source:
+  git_url: https://github.com/sharkdp/fd
+  git_rev: eb111aa83501ac68bc2844890904c34c18a52b89
+
+requirements:
+  build:
+    - {{ compiler('rust') }}
+    - bash 
+    - make
+
+  # run:
+  #   - python
+
+# test:
+#   imports:
+    # -
+
+about:
+  home: https://github.com/sharkdp/fd

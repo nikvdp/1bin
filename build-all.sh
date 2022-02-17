@@ -23,6 +23,7 @@ simple=(
     docker-compose
     emacs
     exa
+    fd
     ffmpeg
     fzf
     gawk

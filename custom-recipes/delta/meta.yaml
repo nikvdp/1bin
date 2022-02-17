@@ -1,0 +1,17 @@
+package:
+  name: delta
+  version: 0.12.0
+
+source:
+  git_url: https://github.com/dandavison/delta.git
+  git_rev: 32e15ce6fb3cbc9648f189f197206ab29aa329c4
+
+requirements:
+  build:
+    - {{ compiler('rust') }}
+    - bash 
+    - make
+
+
+about:
+  home: https://github.com/dandavison/delta

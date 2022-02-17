@@ -8,6 +8,7 @@ set -u
 
 custom_pkgs=(
     bfs
+    delta
     fd
     jc
     netcat
@@ -18,6 +19,7 @@ simple=(
     bat
     bfs
     datasette
+    delta
     deno
     direnv
     docker-compose

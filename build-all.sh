@@ -37,6 +37,7 @@ simple=(
     ncdu
     netcat
     nginx
+    parallel
     perl
     pgcli
     pipenv

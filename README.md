@@ -1,16 +1,16 @@
 # 1bin - easily build “static” binaries of any CLI tool
 
-1bin lets you easily build “static” binaries of pretty much any command line program. 
+1bin lets you easily build “static” binaries of pretty much any command line program.
 
 It's companion website, [1bin.org](https://1bin.org) hosts `curl`/`wget` friendly links that you can use like so: `wget 1bin.org/$(uname)/<some-program>`. These links are updated on each push to master to reflect any new tools or deletions. Pull requests to add new tools welcome.
 
-Using the scripts here you can build pretty much anything that can be packaged with [conda](https://www.anaconda.com/), which is... pretty much everything. 
+Using the scripts here you can build pretty much anything that can be packaged with [conda](https://www.anaconda.com/), which is... pretty much everything.
 
-*Current status: working POC. It does what it’s supposed to, but is held together with virtual duct tape — use at your own risk*
+_Current status: working POC. It does what it’s supposed to, but is held together with virtual duct tape — use at your own risk_
 
 ## Usage
 
-If you just want to run programs without having to do any installation, head over to [1bin.org](https://1bin.org), find the program you’re after, and then paste the code snippet into a terminal on your machine to run it instantly (or at least as instantly as your ISP allows), no fuss no muss. 
+If you just want to run programs without having to do any installation, head over to [1bin.org](https://1bin.org), find the program you’re after, and then paste the code snippet into a terminal on your machine to run it instantly (or at least as instantly as your ISP allows), no fuss no muss.
 
 All binaries are also available on this project's [Github Releases](https://github.com/nikvdp/1bin/releases) page for direct download if you prefer.
 
@@ -18,7 +18,7 @@ All binaries are also available on this project's [Github Releases](https://gith
 
 An unholy agglomeration of some hairy bash scripting, github actions, [conda](https://www.anaconda.com/), [conda-pack](https://conda.github.io/conda-pack/) and [warp](https://github.com/nikvdp/warp) to convert most anything that can be packaged with conda into a self-extracting and relocatable “static” binary (static in scare-quotes, because it’s actually a self-extractor not a true static binary)
 
-Some potential use cases: 
+Some potential use cases:
 
 - easily use popular command-line tools from inside restricted environments such as CI pipelines or docker containers on both Mac and Linux.
 - easily install command-line tools for one off use-cases on someone else’s machine.
@@ -29,9 +29,9 @@ Some potential use cases:
 
 Conda is mostly known as a python package manager built to help install python packages with complicated native dependencies (a common use case when using python for machine learning and data science work) without having to recompile them yourself. However, a lesser known fact about conda is that in the process of solving this problem, they built an entire generic package management system that’s actually closer in spirit to tools like [`homebrew`](https://brew.sh/) or `apt-get` than it is to other python env managers like [poetry](https://python-poetry.org/) or [pipenv](https://pipenv.pypa.io/en/latest/).
 
-Conda is able to create virtualenvs in the same way as most python env managers do, but unlike other python env management tools, conda environments are self-contained and can easily include other (non-python) binary tools. Most binary packages rely on hardcoded absolute paths, and as a result the packages they create not be easily relocated to run on another user’s machine. Conda however takes a different approach, and through some fairly arcane  `patchelf` and [rpath](https://en.wikipedia.org/wiki/Rpathhttps://en.wikipedia.org/wiki/Rpath) black magic is able to convert these hardcoded absolute paths into relative paths that can be easily transported to different machines and that don't depend on anything from the host machine (except for glibc).
+Conda is able to create virtualenvs in the same way as most python env managers do, but unlike other python env management tools, conda environments are self-contained and can easily include other (non-python) binary tools. Most binary packages rely on hardcoded absolute paths, and as a result the packages they create not be easily relocated to run on another user’s machine. Conda however takes a different approach, and through some fairly arcane `patchelf` and [rpath](https://en.wikipedia.org/wiki/Rpathhttps://en.wikipedia.org/wiki/Rpath) black magic is able to convert these hardcoded absolute paths into relative paths that can be easily transported to different machines and that don't depend on anything from the host machine (except for glibc).
 
-They also released the wonderful [conda-pack](https://conda.github.io/conda-pack/), which can convert an installed conda environment into a tarball. By combining `conda` and `conda-pack` with [a modified version](https://github.com/nikvdp/warp) of [fintermobilityas/warp](https://github.com/fintermobilityas/warp), (a rust program to package a directory into a single executable) it’s possible to build fully self-contained binaries that can be run anywhere. 
+They also released the wonderful [conda-pack](https://conda.github.io/conda-pack/), which can convert an installed conda environment into a tarball. By combining `conda` and `conda-pack` with [a modified version](https://github.com/nikvdp/warp) of [fintermobilityas/warp](https://github.com/fintermobilityas/warp), (a rust program to package a directory into a single executable) it’s possible to build fully self-contained binaries that can be run anywhere.
 
 Under the hood, when you run a 1bin app, it uses [my fork of warp](https://github.com/nikvdp/warp) to extract a `conda-pack`-ed environment into a local cache directory, and then runs the specified executable from there as a subprocess, passing any unix signals and path information down to the called subprocess.
 
@@ -53,16 +53,14 @@ Make sure you have the prerequisites installed:
 
 - install [conda](https://www.anaconda.com/)
 - tell conda to use [conda-forge](https://conda-forge.org/) (pasting this shell snippet should do the trick):
-    
-    ```bash
-    cat >$HOME/.condarc <<EOF
-    always_yes: true
-    channels:
-        - conda-forge
-        - defaults
-    EOF
-    ```
-    
+  ```bash
+  cat >$HOME/.condarc <<EOF
+  always_yes: true
+  channels:
+      - conda-forge
+      - defaults
+  EOF
+  ```
 - install conda-pack: `conda install conda-pack`
 - install my fork of [warp-packer](https://github.com/nikvdp/warp): (you can download it from [https://github.com/nikvdp/warp/releases](https://github.com/nikvdp/warp/releases))
 - if you are using an M1 mac, make sure you have the **intel** version of conda installed, this approach does not yet support M1/Applie Silicon natively
@@ -76,9 +74,9 @@ To build a package that’s available in conda-forge or the standard anaconda re
 ./build.sh <some-conda-package-with-an-executable>
 ```
 
- eg. `./build.sh jq` will put a jq executable in the `./out` folder.
+eg. `./build.sh jq` will put a jq executable in the `./out` folder.
 
-In some cases the package name may be different from the executable name. In this situation you need to pass the package name as the argument to `build.sh` and tell it which command to call from inside the package via the `CMD_TO_RUN` environment variable. 
+In some cases the package name may be different from the executable name. In this situation you need to pass the package name as the argument to `build.sh` and tell it which command to call from inside the package via the `CMD_TO_RUN` environment variable.
 
 As an example, [ripgrep](https://github.com/BurntSushi/ripgrep) is available under the package name `ripgrep`, but the executable name for `ripgrep` is `rg`. If you wanted to build a 1bin of ripgrep, you would run `./build.sh` like so:
 
@@ -90,39 +88,29 @@ This would leave an `rg` executable in the `out/` folder.
 
 ### Building private packages
 
-If you are familiar with conda, it’s also possible to use 1bin to build binaries from private conda repositories or private source code. More detail to come on this, but the tl;dr: 
+If you are familiar with conda, it’s also possible to use 1bin to build binaries from private conda repositories or private source code. More detail to come on this, but the tl;dr:
 
 - you first need to make a valid conda recipe for your package. Take a look at the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/latest/), or the [custom-recipes](https://github.com/nikvdp/1bin/tree/master/custom-recipes) folder for some examples
 - because `build.sh` uses the `--use-local` flag when building, once you’ve built and installed your own conda package, you can use it with `build.sh` as normal eg `build.sh <some-package-you-built>`
 
 ## Further work
+
 - [ ] Use caching in the Github Actions workflows. Right now it works reliably but takes > 1h to build all packages. Most of that time is spent rebuilding packages which don't need to be rebuilt since they haven't changed since the last build
 - [ ] Publish a build manifest with the package and version numbers of each package on each release. This could be used to provide metadata (rather than just the cli name) to 1bin.org
 - [ ] Support for building (and downloading) different versions of each CLI tool when conda-forge has more than one version present in it's repos
-- [ ] (experimental) Look into writing an adapter to allow re-packaging Nix packages as Conda packages. Nix generally has a wider and more reliable selection of packages than conda-forge, but they aren't relocatable. However, Nix does allow you to initialize a new Nix store at any location (`nix run --store $PWD/mac-nix-store nixpkgs.nix`), so  theoretically a base Nix store could be created inside a conda-build environment, which would then theoretically allowing the building of anything in nixpkgs as a (relocatable) conda package that could be bundled up with 1bin.
+- [ ] (experimental) Look into writing an adapter to allow re-packaging Nix packages as Conda packages. Nix generally has a wider and more reliable selection of packages than conda-forge, but they aren't relocatable. However, Nix does allow you to initialize a new Nix store at any location (`nix run --store $PWD/mac-nix-store nixpkgs.nix`), so theoretically a base Nix store could be created inside a conda-build environment, which would then theoretically allowing the building of anything in nixpkgs as a (relocatable) conda package that could be bundled up with 1bin.
 
 ## FAQs
 
 - Sometimes nothing happens or it takes a while for my CLI tool to run, what gives?
-    
-    This can happen the first time you run a particular 1bin on a new machine. Since under the hood 1bin is extracting a compressed copy of all the dependencies used for that particular CLI tool, the initial run can take a few seconds while it extracts (see “Where do the extracted files go?” below). 
-    
-    Subsequent runs will be much snappier as it will then run the already extracted cache instead. 
-    
-    In some cases (eg if you hit ctrl-c during the extraction process) [warp](https://github.com/nikvdp/warp) may get confused and try to run the partially extracted version, leading to very strange errors. If this happens, try going to the `warp/packages` directory (see “Where do the extracted files go?” below) and deleting the partially extracted version so that it’ll be (fully) extracted next time you run the 1bin.
-    
-    (I’ll be updating warp in the future to be smarter about this kind of thing so that this doesn’t happen)
-    
+  This can happen the first time you run a particular 1bin on a new machine. Since under the hood 1bin is extracting a compressed copy of all the dependencies used for that particular CLI tool, the initial run can take a few seconds while it extracts (see “Where do the extracted files go?” below).
+  Subsequent runs will be much snappier as it will then run the already extracted cache instead.
+  In some cases (eg if you hit ctrl-c during the extraction process) [warp](https://github.com/nikvdp/warp) may get confused and try to run the partially extracted version, leading to very strange errors. If this happens, try going to the `warp/packages` directory (see “Where do the extracted files go?” below) and deleting the partially extracted version so that it’ll be (fully) extracted next time you run the 1bin.
+  (I’ll be updating warp in the future to be smarter about this kind of thing so that this doesn’t happen)
 - Where do the extracted files go?
-    
-    [warp](https://github.com/nikvdp/warp) caches them under `~/Library/Application Support/warp/packages` on macOS and `~/.local/share/warp/packages` on Linux. If you delete any of the folders under there they will be recreated the next time you run a 1bin.
-    
+  [warp](https://github.com/nikvdp/warp) caches them under `~/Library/Application Support/warp/packages` on macOS and `~/.local/share/warp/packages` on Linux. If you delete any of the folders under there they will be recreated the next time you run a 1bin.
 - Is this safe?
-    
-    Depends on your definitions of safe. You can check the code, this repo is just a way to repackage the great work done by the wonderful community over at [conda-forge](https://conda-forge.org/) into convenient to use binaries, but you are definitely trusting both me and the conda-forge communities to not do anything untoward. If you are concerned about this I’d recommend using another tool
-    
+  Depends on your definitions of safe. You can check the code, this repo is just a way to repackage the great work done by the wonderful community over at [conda-forge](https://conda-forge.org/) into convenient to use binaries, but you are definitely trusting both me and the conda-forge communities to not do anything untoward. If you are concerned about this I’d recommend using another tool
 - Is it just me or are these binaries pretty huge??
-    
-    It’s not just you, they’re pretty big. [Warp](https://github.com/nikvdp/warp) does compress the input, but for each of these programs the binary has to contain both the program itself and a full copy of every dependency required for it to run, and no attempts have (yet) been made to optimize this. 
-    
-    For example, the `docker-compose` 1bin contains a full Python interpreter and every library that docker-compose itself uses inside that file, and so comes in at around 55mb for the Linux version. Given that disks are cheap and networks are fast these days, seems like a good trade to me, ymmv.
+  It’s not just you, they’re pretty big. [Warp](https://github.com/nikvdp/warp) does compress the input, but for each of these programs the binary has to contain both the program itself and a full copy of every dependency required for it to run, and no attempts have (yet) been made to optimize this.
+  For example, the `docker-compose` 1bin contains a full Python interpreter and every library that docker-compose itself uses inside that file, and so comes in at around 55mb for the Linux version. Given that disks are cheap and networks are fast these days, seems like a good trade to me, ymmv.

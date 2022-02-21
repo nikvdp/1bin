@@ -20,7 +20,7 @@ An unholy agglomeration of some hairy bash scripting, github actions, [conda](ht
 
 Some potential use cases: 
 
-- easily use popular command-line tools from inside restricted environments such as CI environments or docker containers on both Mac and Linux.
+- easily use popular command-line tools from inside restricted environments such as CI pipelines or docker containers on both Mac and Linux.
 - easily install command-line tools for one off use-cases on someone else’s machine.
 - make more portable shell scripts that can download any needed third party tools on the fly, regardless of what package managers the OS has provided.
 - (relatively) easily create self-contained and easily deployable packages of your own software for distributing to your end users.
@@ -29,7 +29,7 @@ Some potential use cases:
 
 Conda is mostly known as a python package manager built to help install python packages with complicated native dependencies (a common use case when using python for machine learning and data science work) without having to recompile them yourself. However, a lesser known fact about conda is that in the process of solving this problem, they built an entire generic package management system that’s actually closer in spirit to tools like [`homebrew`](https://brew.sh/) or `apt-get` than it is to other python env managers like [poetry](https://python-poetry.org/) or [pipenv](https://pipenv.pypa.io/en/latest/).
 
-Conda is able to create virtualenvs in the same way as most python env managers do, but unlike other python env management tools, conda environments are self-contained and can easily include other binary tools. Most binary packages rely on hardcoded absolute paths, and as a result the packages they create not be easily relocated to run on another user’s machine. Conda however takes a different approach, and through some fairly arcane  `patchelf` and [rpath](https://en.wikipedia.org/wiki/Rpathhttps://en.wikipedia.org/wiki/Rpath) manipulation black magic is able to convert these hardcoded absolute paths into relative paths that can be easily transported to different machines and that don't depend on anything from the host machine (except for glibc).
+Conda is able to create virtualenvs in the same way as most python env managers do, but unlike other python env management tools, conda environments are self-contained and can easily include other (non-python) binary tools. Most binary packages rely on hardcoded absolute paths, and as a result the packages they create not be easily relocated to run on another user’s machine. Conda however takes a different approach, and through some fairly arcane  `patchelf` and [rpath](https://en.wikipedia.org/wiki/Rpathhttps://en.wikipedia.org/wiki/Rpath) black magic is able to convert these hardcoded absolute paths into relative paths that can be easily transported to different machines and that don't depend on anything from the host machine (except for glibc).
 
 They also released the wonderful [conda-pack](https://conda.github.io/conda-pack/), which can convert an installed conda environment into a tarball. By combining `conda` and `conda-pack` with [a modified version](https://github.com/nikvdp/warp) of [fintermobilityas/warp](https://github.com/fintermobilityas/warp), (a rust program to package a directory into a single executable) it’s possible to build fully self-contained binaries that can be run anywhere. 
 
@@ -94,6 +94,12 @@ If you are familiar with conda, it’s also possible to use 1bin to build binari
 
 - you first need to make a valid conda recipe for your package. Take a look at the [conda-build documentation](https://docs.conda.io/projects/conda-build/en/latest/), or the [custom-recipes](https://github.com/nikvdp/1bin/tree/master/custom-recipes) folder for some examples
 - because `build.sh` uses the `--use-local` flag when building, once you’ve built and installed your own conda package, you can use it with `build.sh` as normal eg `build.sh <some-package-you-built>`
+
+## Further work
+- [ ] Use caching in the Github Actions workflows. Right now it works reliably but takes > 1h to build all packages. Most of that time is spent rebuilding packages which don't need to be rebuilt since they haven't changed since the last build
+- [ ] Publish a build manifest with the package and version numbers of each package on each release. This could be used to provide metadata (rather than just the cli name) to 1bin.org
+- [ ] Support for building (and downloading) different versions of each CLI tool when conda-forge has more than one version present in it's repos
+- [ ] (experimental) Look into writing an adapter to allow re-packaging Nix packages as Conda packages. Nix generally has a wider and more reliable selection of packages than conda-forge, but they aren't relocatable. However, Nix does allow you to initialize a new Nix store at any location (`nix run --store $PWD/mac-nix-store nixpkgs.nix`), so  theoretically a base Nix store could be created inside a conda-build environment, which would then theoretically allowing the building of anything in nixpkgs as a (relocatable) conda package that could be bundled up with 1bin.
 
 ## FAQs
 

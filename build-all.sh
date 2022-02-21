@@ -110,7 +110,7 @@ build-custom-packages() {
     for p in "${custom_pkgs[@]}"; do
         cd "$SCRIPT_DIR/custom-recipes/$p"
         printf "Building custom conda package for '$p'..."
-        conda build . && echo "OK!" || echo "Error!" || true
+        conda build . &>$p.build.log && echo "OK!" || echo "Error!" || true
     done
     cd "$SCRIPT_DIR"
     true

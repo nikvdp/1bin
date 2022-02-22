@@ -8,6 +8,7 @@ set -u
 
 custom_pkgs=(
     bfs
+    cogapp
     delta
     fd
     jc
@@ -76,6 +77,7 @@ complex["mosh-server"]=mosh
 complex["redis-cli"]=redis
 complex[ag]=the_silver_searcher
 complex[cargo]=rust
+complex[cog]=cogapp
 complex[convert]=imagemagick
 complex[ffprobe]=ffmpeg
 complex[gtimeout]=gnu-coreutils # bin should be called timeout, but no support for that yet

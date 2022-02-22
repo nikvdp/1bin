@@ -26,7 +26,7 @@ test:
   imports:
     - cogapp
   commands:
-    - cog --help
+    - cog -h
 
 about:
   home: "http://nedbatchelder.com/code/cog"

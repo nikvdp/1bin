@@ -111,8 +111,9 @@ check_status() {
 build-custom-packages() {
     for p in "${custom_pkgs[@]}"; do
         cd "$SCRIPT_DIR/custom-recipes/$p"
-        printf "Building custom conda package for '$p'..."
-        conda build . &>$p.build.log && echo "OK!" || echo "Error!" || true
+        echo ">>> Building custom conda package for '$p'"
+        conda build . && echo "OK!" || echo "Error!" || true
+        echo ">>> Completed custom conda package for '$p' "
     done
     cd "$SCRIPT_DIR"
     true

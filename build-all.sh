@@ -33,6 +33,7 @@ simple=(
     gh
     git
     go
+    jc
     jq
     mosh
     ncdu
@@ -62,7 +63,6 @@ simple=(
     # # tmux    # builds, but doesn't start (message about term not supporting clear)
     # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
     # # curl    # builds, but gives ssl errors. probably a dep issue
-    # # jc      # builds, but needs to use my formula
     # # fd      # there's a package, but it doesn't seem to install a usable bin
     # # pstree  # no conda package
     # # mplayer # no conda package

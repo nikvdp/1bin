@@ -75,6 +75,12 @@ declare -A complex
 complex["mosh-client"]=mosh
 complex["mosh-server"]=mosh
 complex["redis-cli"]=redis
+complex["moreutils"]=vipe
+complex["moreutils"]=vidir
+complex["moreutils"]=ts
+complex["moreutils"]=sponge
+complex["moreutils"]=pee
+complex["moreutils"]=chronic
 complex[ag]=the_silver_searcher
 complex[cargo]=rust
 complex[cog]=cogapp

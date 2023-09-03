@@ -16,7 +16,6 @@ jobs:
       run: |
         install_conda() {
           local platform=$(uname)
-          [[ "$platform" == "Darwin" ]] && platform="MacOSX"
 
           if [[ "$platform" == "Darwin" ]]; then
               platform="MacOSX"
@@ -103,13 +102,21 @@ jobs:
       run: |
         install_conda() {
           local platform=$(uname)
-          [[ "$platform" == "Darwin" ]] && platform="MacOSX"
+          if [[ "$platform" == "Darwin" ]]; then
+              platform="MacOSX"
+          fi
+          local miniforge_url="https://github.com/conda-forge/miniforge/releases/download/4.10.0-0/Miniforge3-4.10.0-0-$platform-$arch.sh"
+          local conda_url="https://repo.continuum.io/miniconda/Miniconda3-latest-$platform-$arch.sh"
+          local url="$miniforge_url"
 
-          local miniconda="$(mktemp)"
-          curl -L "https://repo.continuum.io/miniconda/Miniconda3-latest-$platform-x86_64.sh" >"$miniconda"
-          bash "$miniconda" -b -p $HOME/miniconda3
-          rm "$miniconda"
+          if ! which conda; then
+              echo "Installing conda from URL: '$url':"
+              local miniconda="$(mktemp)"
+              curl -L "$url" >"$miniconda"
 
+              bash "$miniconda" -b -p $HOME/miniconda3
+              rm "$miniconda"
+          fi
           if ! [[ -f ~/.condarc ]]; then
             echo ">>> Writing $HOME/.condarc"
             cat >$HOME/.condarc <<EOF

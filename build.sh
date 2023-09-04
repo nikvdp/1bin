@@ -73,7 +73,7 @@ create-conda-env-from-env-yaml() {
 }
 
 pack-conda-env() {
-    conda-pack --name "$CONDA_ENV_NAME" --force --output "$CONDAPACK_TARBALL"
+    conda pack --name "$CONDA_ENV_NAME" --force --output "$CONDAPACK_TARBALL"
     mkdir -p "$BUNDLE_WORK_DIR"
     echo "Creating bundle work dir: '$BUNDLE_WORK_DIR'"
     tar -C "$BUNDLE_WORK_DIR" -xf "$CONDAPACK_TARBALL"
@@ -106,5 +106,6 @@ main() {
 
 echo "PKG_TO_INSTALL_NAME: " $PKG_TO_INSTALL_NAME
 echo "CMD_TO_RUN: " $CMD_TO_RUN
+echo "OUTPUT DIR: $OUTPUT_DIR"
 
 main

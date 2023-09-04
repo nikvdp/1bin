@@ -164,4 +164,5 @@ main() {
     build-complex-packages
 }
 
+set -x
 main

@@ -130,7 +130,7 @@ build-custom-packages() {
 build-simple-packages() {
     echo "Building simple 1bins"
     for i in "${simple[@]}"; do
-        if [[ -e "out/$i" ]]; then
+        if [[ -e "$SCRIPT_DIR/out/$i" ]]; then
             echo "Skipping $i"
         else
             printf "Building $i... "
@@ -144,7 +144,7 @@ build-simple-packages() {
 build-complex-packages() {
     echo "Building complex 1bins (where pkg name and executable name differ)"
     for cmd_name in "${!complex[@]}"; do
-        if ! [[ -e "out/$cmd_name" ]]; then
+        if ! [[ -e "$SCRIPT_DIR/out/$cmd_name" ]]; then
             PACKAGE_NAME="${complex[$cmd_name]}"
             printf "Building $cmd_name (package: $PACKAGE_NAME)... "
 

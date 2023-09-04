@@ -78,15 +78,16 @@ jobs:
 
     - name: build 1bins 
       run: |
+        set -x
+        cd "$GITHUB_WORKSPACE"
         ./build-all.sh
 
-        # here we are setting the FILES_TO_RELEASE env var to contain a space
-        # separated list of all files present in the out/ dir (where
-        # build-all.sh drops the 1bins). GITHUB_ENV is a special github actions
-        # env var, see [1]
+        # here we are setting the FILES_TO_RELEASE env var to contain a glob
+        # for all files under the out/ dir (where build-all.sh drops the
+        # 1bins). GITHUB_ENV is a special github actions env var, see [1]
         #
         # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
-        echo "FILES_TO_RELEASE=out/*" >> $GITHUB_ENV
+        echo "FILES_TO_RELEASE=$GITHUB_WORKSPACE/out/*" >> $GITHUB_ENV
 
     - uses: softprops/action-gh-release@v1
       with:
@@ -164,22 +165,26 @@ jobs:
 
     - name: build 1bins
       run: |
+        set -x
         # build-all.sh uses bash associative arrays, but macOS comes with an
         # ancient bash that doesn't support them
         export HOMEBREW_NO_INSTALL_CLEANUP=true
         brew install bash
+
+        cd "$GITHUB_WORKSPACE"
         /usr/local/bin/bash build-all.sh
 
-        # here we are setting the FILES_TO_RELEASE env var to contain a space
-        # separated list of all files present in the out/ dir (where
-        # build-all.sh drops the 1bins). GITHUB_ENV is a special github actions
-        # env var, see [1]
-        #
-        # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
-        pushd out
+        # prefix the mac bins with 'mac-'
+        pushd "$GITHUB_WORKSPACE/out"
         for i in *; do mv "$i" "mac-$i"; done
         popd
-        echo "FILES_TO_RELEASE=out/*" >> $GITHUB_ENV
+
+        # here we are setting the FILES_TO_RELEASE env var to contain a glob
+        # for all files under the out/ dir (where build-all.sh drops the
+        # 1bins). GITHUB_ENV is a special github actions env var, see [1]
+        #
+        # [1]: https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#environment-files
+        echo "FILES_TO_RELEASE=$GITHUB_WORKSPACE/out/*" >> $GITHUB_ENV
 
 
     - uses: softprops/action-gh-release@v1

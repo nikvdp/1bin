@@ -30,6 +30,7 @@ simple=(
     ffmpeg
     fzf
     gawk
+    gem
     gh
     git
     go
@@ -43,10 +44,13 @@ simple=(
     perl
     pgcli
     pipenv
+    pipx
     poetry
     pv
+    python
     rclone
     rsync
+    ruby
     s3cmd
     socat
     tldr

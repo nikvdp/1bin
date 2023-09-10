@@ -76,6 +76,7 @@ simple=(
 
 # format is: complex[<cmd-to-run>]=<package-name>
 declare -A complex
+complex[ctags]=universal-ctags
 complex["mosh-client"]=mosh
 complex["mosh-server"]=mosh
 complex["redis-cli"]=redis

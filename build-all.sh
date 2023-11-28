@@ -36,6 +36,7 @@ simple=(
     go
     jc
     jq
+    jupyter
     mosh
     ncdu
     netcat

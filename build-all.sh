@@ -12,6 +12,7 @@ custom_pkgs=(
     delta
     fd
     jc
+    litellm
     netcat
 )
 

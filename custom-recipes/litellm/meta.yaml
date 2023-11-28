@@ -1,0 +1,48 @@
+{% set name = "litellm" %}
+{% set version = "1.7.7" %}
+
+package:
+  name: "{{ name|lower }}"
+  version: "{{ version }}"
+
+source:
+  url: "https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz"
+  sha256: 5c9675e3963962abc2b3c3c1f32cb210921f1e350d0cc3eddc85407ff9964bf5
+
+build:
+  number: 0
+  entry_points:
+    - litellm=litellm:run_server
+  script: "{{ PYTHON }} -m pip install . -vv"
+
+requirements:
+  host:
+    - pip
+    - python >=3.8
+    - poetry
+  run:
+    - python >=3.8
+    - openai >=1.0.0
+    - python-dotenv >=0.2.0
+    - tiktoken >=0.4.0
+    - importlib-metadata >=6.8.0
+    - tokenizers
+    - click
+    - jinja2 >=3.1.2
+    - certifi >=2023.7.22
+    - appdirs >=1.4.4
+    - aiohttp      
+    - async_generator >=1.10
+
+about:
+  home: "https://github.com/BerriAI/litellm"
+  license: MIT
+  license_family: MIT
+  license_file: 
+  summary: "Call all LLM APIs using the OpenAI format. Use Bedrock, Azure, OpenAI, Cohere, Anthropic, Ollama, Sagemaker, HuggingFace, Replicate (100+ LLMs)"
+  doc_url: 
+  dev_url: 
+
+extra:
+  recipe-maintainers:
+    - your-github-id-here

@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Parse command line arguments
+main() {
+    if [[ $# -eq 0 ]]; then
+        usage
+        exit 1
+    fi
+
+    while [[ $# -gt 0 ]]; do
+        key="$1"
+
+        case $key in
+        build)
+            shift # past argument
+            build "$@"
+            break
+            ;;
+        help | -h | --help)
+            usage
+            exit 1
+            ;;
+        *) # unknown option
+            usage
+            exit 1
+            ;;
+        esac
+    done
+}
+
+build() {
+    while [[ $# -gt 0 ]]; do
+        key="$1"
+
+        case $key in
+        -b | --binary-name)
+            shift # the -b
+            CMD_TO_RUN="$1"
+            shift 
+            ;;
+        -h | --help)
+            build_usage
+            exit 1
+            ;;
+        *) # unknown option
+            PKG_NAME="$1"
+            shift # past argument
+            ;;
+        esac
+    done
+
+    if [[ -z "$PKG_NAME" ]]; then
+        echo 1>&2 "Must specify a binary name!"
+        build_usage
+        exit 1
+    fi
+
+    echo -n "Building package $PKG_NAME" 1>&2
+    if [[ -n "$CMD_TO_RUN" ]]; then
+        echo " (executable: $CMD_TO_RUN)" 1>&2
+        export CMD_TO_RUN
+    else
+        echo "" 1>&2
+    fi
+    $SCRIPT_DIR/build.sh "$PKG_NAME"
+    echo >&2 "Package $PKG_NAME built to $SCRIPT_DIR/out!"
+}
+
+usage() {
+    cat 1>&2 <<EOF
+Usage: 1bin COMMAND [ARGS]...
+
+Options:
+-h, --help    Show this message and exit
+
+Commands:
+build         Build the binary. Use 'build -h' for more information
+EOF
+}
+
+build_usage() {
+    cat 1>&2 <<EOF
+Usage: 1bin build [OPTIONS]...
+
+Options:
+  -b, --binary-name    Specify the binary name
+  -h, --help           Show this message and exit
+EOF
+}
+
+main "$@"

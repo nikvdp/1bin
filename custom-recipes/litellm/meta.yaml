@@ -14,7 +14,11 @@ build:
   number: 0
   entry_points:
     - litellm=litellm:run_server
-  script: "{{ PYTHON }} -m pip install . -vv"
+  script: |
+    {{ PYTHON }} -m pip install . -vv
+    # {{ PYTHON }} -m pip install --ignore-installed async_generator -vv
+    {{ PYTHON }} -m pip install https://files.pythonhosted.org/packages/71/52/39d20e03abd0ac9159c162ec24b93fbcaa111e8400308f2465432495ca2b/async_generator-1.10-py3-none-any.whl
+    # {{ PYTHON }} -m pip install async_generator
 
 requirements:
   host:

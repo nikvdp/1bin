@@ -6,6 +6,8 @@ set -u
 
 # this script should be run by ci to build all the pkgs
 
+# this is the list of which custom pkgs to build, but the pkg still needs to be
+# added to complex or simple below
 custom_pkgs=(
     bfs
     cogapp
@@ -38,10 +40,11 @@ simple=(
     jc
     jq
     jupyter
+    litellm
     mosh
     ncdu
-    netcat
     nginx
+    # packages below don't work for various reasons
     parallel
     perl
     pgcli
@@ -69,7 +72,6 @@ simple=(
     # # tmux    # builds, but doesn't start (message about term not supporting clear)
     # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
     # # curl    # builds, but gives ssl errors. probably a dep issue
-    # # fd      # there's a package, but it doesn't seem to install a usable bin
     # # pstree  # no conda package
     # # mplayer # no conda package
     # # shfmt   # no conda package

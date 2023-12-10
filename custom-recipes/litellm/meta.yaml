@@ -32,28 +32,28 @@ requirements:
     - python-dotenv >=0.2.0
     - tiktoken >=0.4.0
     - importlib-metadata >=6.8.0
-    - tokenizers
-    - click
+    - tokenizers=0.15
+    - click=8.1
     - jinja2 >=3.1.2
     - certifi >=2023.7.22
     - appdirs >=1.4.4
-    - aiohttp      
-    # below are hidden deps that llm tries to conditionally install in proxy_server.py (grr, thanks litellm)
-    # conda apparently doesn't install the deps if it's not in the mood (or
-    # maybe old deps are getting cached somewere). regardless, the only way to get things to work is to 
-    # first do conda build with --output-folder and save it somewhere, and *then* use -c to add that folder 
-    # as a channel when you do the conda install. need to update 1bin to do this. 
-    #
-    # when used that way, the below deps get installed and litellm works properly
-    - uvicorn
-    - fastapi
-    - appdirs
-    - backoff
-    - pyyaml
-    - rq
+    - aiohttp=3.9      
+    # below are hidden deps that llm tries to conditionally install in
+    # proxy_server.py (grr, thanks litellm)
+    # conda doesn't update channel's deps if an older version had different
+    # deps, so when testing this locally it's better to do `conda build` with
+    # `--output-folder` to save it somewhere new , and *then* use -c to add
+    # that folder as a channel when you do the conda install. shouldn't be an 
+    # issue in CI since that'll be on a fresh instance
+    - uvicorn=0.24
+    - fastapi=0.99
+    - appdirs=1.4
+    - backoff=2.2
+    - pyyaml=6.0
+    - rq=1.15
     - anyio=4.1
-    - orjson
-    - async_generator
+    - orjson=3.9
+    - async_generator=1.10
 
 about:
   home: "https://github.com/BerriAI/litellm"
@@ -66,4 +66,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - your-github-id-here
+    - nikvdp

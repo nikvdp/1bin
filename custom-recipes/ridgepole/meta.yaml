@@ -1,6 +1,6 @@
 package:
   name: ridgepole
-  version: "0.0.1"
+  version: "2.0.3"
 
 source:
   path: .
@@ -8,27 +8,23 @@ source:
 build:
   script: |
     #!/bin/bash
-    export GEM_HOME="$PREFIX/lib/ruby/gems"
+    # unfortunately to make gems get detected properly by conda this strange workaround is required
+    export GEM_HOME="$(gem env home)"
     export GEM_PATH="$GEM_HOME"
+    # TODO: embed the ridgepole version number
     gem install ridgepole pg
-    cp "$GEM_HOME/bin/"* "$PREFIX/bin/"
-  script_env:
-    - GEM_HOME=$PREFIX/lib/ruby/gems
-    - GEM_PATH=$GEM_HOME
+    ln -s "$PREFIX/bin/ruby" "$GEM_HOME/bin/ruby" 
+    ln -s "$PREFIX/share/rubygems/bin/ridgepole" "$PREFIX/bin/ridgepole" 
 
 requirements:
   build:
     - ruby
     - compilers
-    - {{ compiler('c') }}
-    - {{ compiler('cxx') }}
     - make
     - autoconf
     - automake
     - libtool
     - pkg-config
-    - postgresql
-  host: 
     - postgresql
   run:
     - ruby
@@ -41,5 +37,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - your-github-username
-
+    - nikvdp

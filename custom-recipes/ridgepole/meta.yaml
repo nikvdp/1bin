@@ -1,0 +1,34 @@
+package:
+  name: ridgepole
+  version: "0.0.1"
+
+source:
+  path: .
+
+build:
+  script: |
+    #!/bin/bash
+    export GEM_HOME="$PREFIX/lib/ruby/gems"
+    export GEM_PATH="$GEM_HOME"
+    gem install ridgepole pg
+    cp "$GEM_HOME/bin/"* "$PREFIX/bin/"
+  script_env:
+    - GEM_HOME=$PREFIX/lib/ruby/gems
+    - GEM_PATH=$GEM_HOME
+
+requirements:
+  build:
+    - ruby
+    - compilers
+  run:
+    - ruby
+
+about:
+  home: "https://github.com/winebarrel/ridgepole"
+  license: "MIT"
+  summary: "Ridgepole is a tool to manage a database schema using a DSL."
+
+extra:
+  recipe-maintainers:
+    - your-github-username
+

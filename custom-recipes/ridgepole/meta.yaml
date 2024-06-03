@@ -1,6 +1,9 @@
+{% set version = "2.0.3" %}
+{% set pg_version = "1.5.6" %}
+
 package:
   name: ridgepole
-  version: "2.0.3"
+  version: "{{ version }}"
 
 source:
   path: .
@@ -11,8 +14,8 @@ build:
     # unfortunately to make gems get detected properly by conda this strange workaround is required
     export GEM_HOME="$(gem env home)"
     export GEM_PATH="$GEM_HOME"
-    # TODO: embed the ridgepole version number
-    gem install ridgepole pg
+    gem install ridgepole -v {{ version }}
+    gem install pg -v {{ pg_version }}
     ln -s "$PREFIX/bin/ruby" "$GEM_HOME/bin/ruby" 
     ln -s "$PREFIX/share/rubygems/bin/ridgepole" "$PREFIX/bin/ridgepole" 
 

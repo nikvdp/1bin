@@ -17,7 +17,14 @@ build:
     gem install ridgepole -v {{ version }}
     gem install pg -v {{ pg_version }}
     ln -s "$PREFIX/bin/ruby" "$GEM_HOME/bin/ruby" 
-    ln -s "$PREFIX/share/rubygems/bin/ridgepole" "$PREFIX/bin/ridgepole" 
+    # ln -s "$PREFIX/share/rubygems/bin/ridgepole" "$PREFIX/bin/ridgepole" 
+
+    echo '#!/usr/bin/env bash' > "$PREFIX/bin/ridgepole"  
+    cat <<EOF >> "$PREFIX/bin/ridgepole"  
+    export GEM_HOME="\$(echo \$(cd \$(dirname "\$0")/.. && pwd)/share/rubygems)"
+    exec $GEM_HOME/bin/ridgepole "\$@"
+    EOF
+    chmod +x "$PREFIX/bin/ridgepole"
 
 requirements:
   build:

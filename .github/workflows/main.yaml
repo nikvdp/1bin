@@ -20,7 +20,8 @@ jobs:
           if [[ "$platform" == "Darwin" ]]; then
               platform="MacOSX"
           fi
-          local miniforge_url="https://github.com/conda-forge/miniforge/releases/download/4.10.0-0/Miniforge3-4.10.0-0-$platform-$arch.sh"
+          local arch="$(uname -m)"
+          local miniforge_url="https://github.com/conda-forge/miniforge/releases/download/24.3.0-0/Mambaforge-24.3.0-0-$platform-$arch.sh"
           local conda_url="https://repo.continuum.io/miniconda/Miniconda3-latest-$platform-$arch.sh"
           local url="$miniforge_url"
 

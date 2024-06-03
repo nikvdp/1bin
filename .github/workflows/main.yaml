@@ -174,7 +174,7 @@ jobs:
         brew install bash
 
         cd "$GITHUB_WORKSPACE"
-        /usr/local/bin/bash build-all.sh
+        $(brew --prefix)/bin/bash build-all.sh
 
         # prefix the mac bins with 'mac-'
         ls

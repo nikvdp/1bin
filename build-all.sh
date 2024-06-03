@@ -16,6 +16,7 @@ custom_pkgs=(
     jc
     litellm
     netcat
+    ridgepole
 )
 
 simple=(
@@ -53,6 +54,7 @@ simple=(
     poetry
     pv
     python
+    ridgepole
     rclone
     rsync
     ruby

@@ -47,6 +47,7 @@ simple=(
     nginx
     # packages below don't work for various reasons
     parallel
+    pdm
     perl
     pgcli
     pipenv

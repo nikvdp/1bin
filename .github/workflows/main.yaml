@@ -27,7 +27,7 @@ jobs:
 
           if ! which conda; then
               echo "Installing conda from URL: '$url':"
-              local miniconda="$(mktemp)"
+              local miniconda="$(mktemp).sh"
               curl -L "$url" >"$miniconda"
 
               bash "$miniconda" -b -p $HOME/miniconda3
@@ -114,7 +114,7 @@ jobs:
 
           if ! which conda; then
               echo "Installing conda from URL: '$url':"
-              local miniconda="$(mktemp)"
+              local miniconda="$(mktemp).sh"
               curl -L "$url" >"$miniconda"
 
               bash "$miniconda" -b -p $HOME/miniconda3

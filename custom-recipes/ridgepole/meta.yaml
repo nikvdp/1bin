@@ -20,8 +20,19 @@ requirements:
   build:
     - ruby
     - compilers
+    - {{ compiler('c') }}
+    - {{ compiler('cxx') }}
+    - make
+    - autoconf
+    - automake
+    - libtool
+    - pkg-config
+    - postgresql
+  host: 
+    - postgresql
   run:
     - ruby
+    - postgresql
 
 about:
   home: "https://github.com/winebarrel/ridgepole"

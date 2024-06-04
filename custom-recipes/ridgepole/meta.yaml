@@ -21,7 +21,7 @@ build:
 
     echo '#!/usr/bin/env bash' > "$PREFIX/bin/ridgepole"  
     cat <<EOF >> "$PREFIX/bin/ridgepole"  
-    export GEM_HOME="$(cd "\$(dirname "\$0")/.." && pwd)/share/rubygems"
+    export GEM_HOME="\$(cd "\$(dirname "\$0")/.." && pwd)/share/rubygems"
     exec "\$GEM_HOME/bin/ridgepole" "\$@"
     EOF
     chmod +x "$PREFIX/bin/ridgepole"

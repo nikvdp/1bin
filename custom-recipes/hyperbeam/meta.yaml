@@ -1,0 +1,37 @@
+{% set version = "3.0.2" %}
+
+package:
+  name: hyperbeam
+  version: "{{ version }}"
+
+source:
+  path: .
+
+build:
+  script: |
+    #!/bin/bash
+    export npm_config_prefix="$PREFIX"
+    npm install -g hyperbeam@{{version}}
+
+requirements:
+  build:
+    - nodejs=20.12.2
+    - patchelf
+    - compilers
+    - make
+    - autoconf
+    - automake
+    - libtool
+    - pkg-config
+    - postgresql
+  run:
+    - nodejs=20.12.2
+
+about:
+  home: "https://github.com/mafintosh/hyperbeam"
+  license: "MIT"
+  summary: "A 1-1 end-to-end encrypted internet pipe powered by Hyperswarm and Noise"
+
+extra:
+  recipe-maintainers:
+    - nikvdp

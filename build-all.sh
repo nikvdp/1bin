@@ -13,9 +13,11 @@ custom_pkgs=(
     cogapp
     delta
     fd
+    hyperbeam 
     jc
     litellm
     netcat
+    prisma
     ridgepole
 )
 
@@ -38,6 +40,7 @@ simple=(
     gh
     git
     go
+    hyperbeam
     jc
     jq
     jupyter
@@ -53,6 +56,7 @@ simple=(
     pipenv
     pipx
     poetry
+    prisma
     pv
     python
     ridgepole

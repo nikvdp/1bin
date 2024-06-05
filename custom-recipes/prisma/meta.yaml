@@ -1,0 +1,37 @@
+{% set version = "5.15.0" %}
+
+package:
+  name: prisma
+  version: "{{ version }}"
+
+source:
+  path: .
+
+build:
+  script: |
+    #!/bin/bash
+    export npm_config_prefix="$PREFIX"
+    npm install -g prisma@{{version}}
+
+requirements:
+  build:
+    - nodejs=20.12.2
+    - patchelf
+    - compilers
+    - make
+    - autoconf
+    - automake
+    - libtool
+    - pkg-config
+    - postgresql
+  run:
+    - nodejs=20.12.2
+
+about:
+  home: "https://www.prisma.io/"
+  license: "Apache-2.0"
+  summary: "Prisma is a next-generation ORM"
+
+extra:
+  recipe-maintainers:
+    - nikvdp

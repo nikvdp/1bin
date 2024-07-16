@@ -1,0 +1,38 @@
+{% set version = "8.8.0" %}
+package:
+  name: curl
+  version: {{ version }}
+
+source: 
+  path: .
+
+build:
+  script: |
+    #!/bin/bash
+    plat="$(uname -s)"
+    arch="$(uname -m)"
+    
+    if [[ "$plat" == "Darwin" ]]; then 
+      if [[ "$arch" == "arm64" ]]; then
+        wget 'https://github.com/stunnel/static-curl/releases/download/8.8.0/curl-macos-arm64-8.8.0.tar.xz' -O curl.tar.xz
+      elif [[ "$arch" == "x86_64" ]]; then
+        wget 'https://github.com/stunnel/static-curl/releases/download/8.8.0/curl-macos-x86_64-8.8.0.tar.xz' -O curl.tar.xz
+      fi
+    elif [[ "$plat" == "Linux" ]]; then
+      if [[ "$arch" == "aarch64" ]]; then
+        wget 'https://github.com/stunnel/static-curl/releases/download/8.8.0/curl-linux-aarch64-8.8.0.tar.xz' -O curl.tar.xz
+      elif [[ "$arch" == "x86_64" ]]; then
+        wget 'https://github.com/stunnel/static-curl/releases/download/8.8.0/curl-linux-x86_64-8.8.0.tar.xz' -O curl.tar.xz
+      fi
+    fi
+
+    tar xvJf curl.tar.xz
+    mv curl "$PREFIX/bin"
+
+
+requirements:
+  build:
+    - wget
+
+about:
+  home: https://curl.se/

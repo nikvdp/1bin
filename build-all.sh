@@ -57,12 +57,14 @@ simple=(
     pipx
     poetry
     prisma
+    progress
     pv
     python
     ridgepole
     rclone
     rsync
     ruby
+    screen
     s3cmd
     socat
     tldr
@@ -78,11 +80,13 @@ simple=(
     # packages below don't work for various reasons
     # # tmux    # builds, but doesn't start (message about term not supporting clear)
     # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
-    # # curl    # builds, but gives ssl errors. probably a dep issue
+    # # curl    # builds, but gives ssl errors when making requests. probably fixable by installing ca-certs pkg, see [1]
     # # pstree  # no conda package
     # # mplayer # no conda package
     # # shfmt   # no conda package
     # # howdoi  # no conda package
+    #
+    # [1]: https://github.com/ContinuumIO/anaconda-issues/issues/72#issuecomment-511185603
 )
 
 # format is: complex[<cmd-to-run>]=<package-name>

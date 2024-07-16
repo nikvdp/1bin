@@ -11,6 +11,7 @@ set -u
 custom_pkgs=(
     bfs
     cogapp
+    curl  # need to use custom curl, conda's native version has ssl issues
     delta
     fd
     hyperbeam 
@@ -25,6 +26,7 @@ simple=(
     bash
     bat
     bfs
+    curl
     datasette
     delta
     deno
@@ -80,7 +82,6 @@ simple=(
     # packages below don't work for various reasons
     # # tmux    # builds, but doesn't start (message about term not supporting clear)
     # # tmate   # builds, but binaries have issues (terminfo + dydl stuff on mac)
-    # # curl    # builds, but gives ssl errors when making requests. probably fixable by installing ca-certs pkg, see [1]
     # # pstree  # no conda package
     # # mplayer # no conda package
     # # shfmt   # no conda package

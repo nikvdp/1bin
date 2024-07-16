@@ -20,9 +20,9 @@ build:
       fi
     elif [[ "$plat" == "Linux" ]]; then
       if [[ "$arch" == "aarch64" ]]; then
-        wget 'https://github.com/stunnel/static-curl/releases/download/8.8.0/curl-linux-aarch64-8.8.0.tar.xz' -O curl.tar.xz
+        wget 'https://github.com/stunnel/static-curl/releases/download/8.8.0/curl-linux-aarch64-musl-8.8.0.tar.xz' -O curl.tar.xz
       elif [[ "$arch" == "x86_64" ]]; then
-        wget 'https://github.com/stunnel/static-curl/releases/download/8.8.0/curl-linux-x86_64-8.8.0.tar.xz' -O curl.tar.xz
+        wget 'https://github.com/stunnel/static-curl/releases/download/8.8.0/curl-linux-x86_64-musl-8.8.0.tar.xz' -O curl.tar.xz
       fi
     fi
 

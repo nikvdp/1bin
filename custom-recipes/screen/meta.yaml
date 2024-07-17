@@ -1,0 +1,20 @@
+package:
+  name: screen
+  version: 4.08
+
+source:
+  path: .
+
+requirements:
+  build:
+    - wget
+
+build:
+  skip: True # [not linux]
+  script: |
+    wget https://github.com/ryanwoodsmall/static-binaries/raw/master/x86_64/screen
+    chmod +x screen 
+    mv screen $PREFIX/bin
+
+about:
+  home: https://github.com/ryanwoodsmall/static-binaries

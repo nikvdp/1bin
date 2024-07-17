@@ -20,6 +20,7 @@ custom_pkgs=(
     netcat
     prisma
     ridgepole
+    screen
 )
 
 simple=(
@@ -50,7 +51,6 @@ simple=(
     mosh
     ncdu
     nginx
-    # packages below don't work for various reasons
     parallel
     pdm
     perl
